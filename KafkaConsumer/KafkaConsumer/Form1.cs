@@ -17,10 +17,7 @@ namespace KafkaConsumer
     public partial class Form1 : Form
     {
         DataTable m_dtServicesArbin = new DataTable();
-        //KafkaRecord m_KafkaRecord = new KafkaRecord();
         private string BasePath = Environment.CurrentDirectory;
-        //private string SystemConfigFileName = $"ArbinSys.cfg";
-        //private string DbcfConfigFilePath = "ArbinSys.DBCF";
         private string m_GroupId = "Consumer_Arbin_QA";
         private string m_BootstrapServer = "192.168.1.57:9092";
         private string m_SchemaRegisterServer = "192.168.1.57:8081";
