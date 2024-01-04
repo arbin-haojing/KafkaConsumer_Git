@@ -49,12 +49,10 @@ namespace KafkaConsumer
         {
             InitializeComponent();
             InitConfig();
-            //InitDataGridView();
             BasePath = Environment.CurrentDirectory + "\\";
             InitControl();
             m_ExportDataPath = BasePath + $"\\ExportData\\{txtGroupId.Text}";
             CreateThread();
-            //StartThread();
         }
         private void InitControl()
         {
@@ -296,11 +294,7 @@ namespace KafkaConsumer
                                             DataRow dataRow = m_dtServicesArbin.Rows[chan - 1];
                                             for (int i = 0; i < m_PublicColumnCount; i++)
                                             {
-                                                if (i == m_NameMapIndex[$"{eKafkaTopic}_Status"])
-                                                {
-                                                    dataRow[i] = Enum.GetName(typeof(EChannelStatus), Convert.ToInt32(record.GetValue(i)));
-                                                }
-                                                else if (i == m_NameMapIndex[$"{eKafkaTopic}_TestTime"] || (i == m_NameMapIndex[$"{eKafkaTopic}_StepTime"]))
+                                                if (i == m_NameMapIndex[$"{eKafkaTopic}_TestTime"] || (i == m_NameMapIndex[$"{eKafkaTopic}_StepTime"]))
                                                 {
                                                     dataRow[i] = FormatTime(record.GetValue(i));
                                                 }
@@ -394,7 +388,6 @@ namespace KafkaConsumer
                     AutoOffsetReset = AutoOffsetReset.Earliest, // 从最早的偏移量开始消费消息
                     EnableAutoCommit = false // 启用自动提交偏移量
                 };
-                //using (var consumer = new ConsumerBuilder<string, byte[]>(configComsume).Build())
                 IConsumer<string, byte[]> consumer = new ConsumerBuilder<string, byte[]>(configComsume).Build();
                 m_Offset.Add(consumer,new Dictionary<int, int>());
                 {
@@ -423,31 +416,13 @@ namespace KafkaConsumer
                             {
                                 ConsumeResult<string, byte[]> consumeResult = consumer.Consume(cancellationTokenSource.Token);
                                 intCount++;
-                                //Console.WriteLine(intCount);
-                                //if (m_Offset[consumer].Keys.Contains(consumeResult.Partition))
-                                //{
-                                //    m_Offset[consumer][consumeResult.Partition] = (int)consumeResult.Offset;
-                                //}
-                                //else
-                                //{
-                                //    m_Offset[consumer].Add(consumeResult.Partition, (int)consumeResult.Offset);
-                                //}
-                                //Console.WriteLine($"Partition:{consumeResult.Partition}----Offset:{consumeResult.Offset}");
-                                //Console.WriteLine($"{DateTime.Now}[P:{consumeResult.Partition}];[Offset:{consumeResult.Offset}]");
                                 if (bSelectKey)
                                 {
-                                    if (m_UseSerialNumber && m_bTestName && !consumeResult.Key.Equals(strSelect))
-                                    {
-                                        //consumer.Commit(consumeResult);
+                                    if (m_UseSerialNumber && m_bTestName && !consumeResult.Key.ToLower().Equals(strSelect.ToLower()))
                                         continue;
-                                    }
-                                    if (!m_bTestName && !consumeResult.Key.Contains(strSelect))
-                                    {
-                                        //consumer.Commit(consumeResult);
+                                    if (!m_bTestName && !consumeResult.Key.ToLower().Contains(strSelect.ToLower()))
                                         continue;
-                                    }
                                 };
-                                
                                 bool bOk = true;
                                 var serializedRecords = consumeResult.Message.Value;
                                 using (var memoryStream = new System.IO.MemoryStream(serializedRecords))
@@ -459,16 +434,10 @@ namespace KafkaConsumer
                                     {
                                         GenericRecord record = avroReader.Read(null, reader);
                                         if (m_bTestID && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_TestID)) != m_TestID)
-                                        {
                                             continue;
-                                        }
                                         if (m_bChanel && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_Chan)) != m_Chanel)
-                                        {
                                             continue;
-                                        }
                                         strPath = strPathFile;
-                                        //Console.WriteLine("DataPoint:"+ record.GetValue((int)EMonitorFieldPos.Channel_DataPoint));
-                                        //continue;
                                         List<string> lstLine = new List<string>();
                                         List<string> lstCol = new List<string>();
                                         string strValue;
@@ -483,18 +452,203 @@ namespace KafkaConsumer
                                                 strPath += $"[{strValue}] ";
                                                 lstCol.Add(strValue);
                                             }
-                                            else if (i == m_NameMapIndex[$"{eKafkaTopic}_Status"])
+                                            else if (i == m_NameMapIndex[$"{eKafkaTopic}_Auxs"])
                                             {
-                                                lstCol.Add(Enum.GetName(typeof(EChannelStatus), Convert.ToInt32(record.GetValue(i))));
+                                                strValue = "";
+                                                foreach (var item in (object[])record.GetValue(i))
+                                                {
+                                                    strValue = "";
+                                                    GenericRecord record_tem = item as GenericRecord;
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AuxType))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AuxChGlobalID))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AuxChVirtualID))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_Value))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_dxdt))}]";
+                                                    lstCol.Add(strValue);
+                                                }
+                                                //lstCol.Add(strValue);
+                                            }
+                                            else if (i == m_NameMapIndex[$"{eKafkaTopic}_CANBMSs"])
+                                            {
+                                                strValue = "";
+                                                foreach (var item in (object[])record.GetValue(i))
+                                                {
+                                                    strValue = "";
+                                                    GenericRecord record_tem = item as GenericRecord;
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_MetaName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_IsOffline))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_DataType - 1))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_Value -1))}]";
+                                                    lstCol.Add(strValue);
+                                                }
+                                                //lstCol.Add(strValue);
+                                            }
+                                            else if (i == m_NameMapIndex[$"{eKafkaTopic}_SMBs"])
+                                            {
+                                                strValue = "";
+                                                foreach (var item in (object[])record.GetValue(i))
+                                                {
+
+                                                    strValue = "";
+                                                    GenericRecord record_tem = item as GenericRecord;
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_MetaName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_IsOffline))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_DataType))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_Value))}]";
+                                                    lstCol.Add(strValue);
+                                                }
+                                                //lstCol.Add(strValue);
+                                            }
+                                            else if (i == m_NameMapIndex[$"{eKafkaTopic}_MVUDs"])
+                                            {
+                                                object[] Value = (object[])record.GetValue(i);
+                                                strValue = string.Join("_", Value.Cast<double>().ToArray());
+                                                lstCol.Add(strValue);
+                                            }
+                                            else if (i == m_NameMapIndex[$"{eKafkaTopic}_TCCounters"])
+                                            {
+                                                object[] Value = (object[])record.GetValue(i);
+                                                strValue = string.Join("_", Value.Cast<int>().ToArray());
+                                                lstCol.Add(strValue);
+                                            }
+                                            else
+                                            {
+                                                strValue = Convert.ToString(record.GetValue(i));
+                                                lstCol.Add(strValue);
+                                            }
+                                        }
+                                        lstLine.Add(string.Join(",", lstCol));
+                                        strPath += ".csv";
+                                        if (!File.Exists(strPath))
+                                            CreateFile(eKafkaTopic, strPath);
+                                        bOk = WriteFile_DifferenPath_Channel(eKafkaTopic, strPath, ".csv", lstLine);
+                                        if (!bOk)
+                                        {
+                                            Log($"[{eKafkaTopic}]:" + string.Join(",", lstCol));
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Log($"[{eKafkaTopic}]:" + ex.Message);
+                                continue;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log($"[{eKafkaTopic}]:Consumer Close;" + ex.Message);
+                        // 用户取消操作，关闭消费者
+                        consumer.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"[{eKafkaTopic}]:" + ex.Message);
+            }
+        }
+        private void ConsumerSubChannelTopic()
+        {
+            string strPathFile = $@"{m_ExportDataPath}\Channel\";
+            Directory.CreateDirectory(strPathFile);
+            //string strPathFile = $@"{m_ExportDataPath}\Channel.csv";
+            EKafkaTopic eKafkaTopic = EKafkaTopic.Channel;
+            try
+            {
+
+                string schemaJson = m_CachedSchemaRegistryClient.GetLatestSchemaAsync(eKafkaTopic.ToString()).Result;
+                RecordSchema schema = (RecordSchema)Avro.Schema.Parse(schemaJson);
+                ConsumerConfig configComsume = new ConsumerConfig
+                {
+                    BootstrapServers = m_BootstrapServer,
+                    GroupId = m_GroupId,
+                    AutoOffsetReset = AutoOffsetReset.Earliest, // 从最早的偏移量开始消费消息
+                    EnableAutoCommit = false // 启用自动提交偏移量
+                };
+                IConsumer<string, byte[]> consumer = new ConsumerBuilder<string, byte[]>(configComsume).Build();
+                m_Offset.Add(consumer, new Dictionary<int, int>());
+                {
+                    consumer.Subscribe(eKafkaTopic.ToString());
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                    Console.CancelKeyPress += (_, e) =>
+                    {
+                        e.Cancel = false; // 防止应用程序关闭
+                        cancellationTokenSource.Cancel();
+                    };
+                    try
+                    {
+                        bool bSelectKey = false;
+                        string strSelect = "";
+                        if (m_UseSerialNumber)
+                            strSelect += m_SerialNumber;
+                        if (m_bTestName)
+                            strSelect += "_" + m_TestName;
+                        bSelectKey = !string.IsNullOrEmpty(strSelect);
+                        int intFilesCount = m_TopicFilesCount[eKafkaTopic];
+                        int intCount = 0;
+                        string strPath;
+                        while (true)
+                        {
+                            try
+                            {
+                                ConsumeResult<string, byte[]> consumeResult = consumer.Consume(cancellationTokenSource.Token);
+                                intCount++;
+                                if (bSelectKey)
+                                {
+                                    if (m_UseSerialNumber && m_bTestName && !consumeResult.Key.Equals(strSelect))
+                                        continue;
+                                    if (!m_bTestName && !consumeResult.Key.Contains(strSelect))
+                                        continue;
+                                };
+                                bool bOk = true;
+                                var serializedRecords = consumeResult.Message.Value;
+                                using (var memoryStream = new System.IO.MemoryStream(serializedRecords))
+                                {
+                                    var reader = new BinaryDecoder(memoryStream);
+                                    var avroReader = new GenericDatumReader<GenericRecord>(schema,
+                                    schema);
+                                    while (memoryStream.Position < memoryStream.Length)
+                                    {
+                                        GenericRecord record = avroReader.Read(null, reader);
+                                        if (m_bTestID && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_TestID)) != m_TestID)
+                                            continue;
+                                        if (m_bChanel && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_Chan)) != m_Chanel)
+                                            continue;
+                                        strPath = strPathFile;
+                                        List<string> lstLine = new List<string>();
+                                        List<string> lstCol = new List<string>();
+                                        string strValue;
+                                        for (int i = 0; i < intFilesCount; i++)
+                                        {
+                                            if (i == m_NameMapIndex[$"{eKafkaTopic}_SerialNumber"] ||
+                                                i == m_NameMapIndex[$"{eKafkaTopic}_TestName"] ||
+                                                i == m_NameMapIndex[$"{eKafkaTopic}_TestID"] ||
+                                                i == m_NameMapIndex[$"{eKafkaTopic}_ChannelID"] ||
+                                                i == m_NameMapIndex[$"{eKafkaTopic}_SubChannelID"])
+                                            {
+                                                strValue = Convert.ToString(record.GetValue(i));
+                                                strPath += $"[{strValue}] ";
+                                                lstCol.Add(strValue);
                                             }
                                             else if (i == m_NameMapIndex[$"{eKafkaTopic}_Auxs"])
                                             {
                                                 strValue = "";
                                                 foreach (var item in (object[])record.GetValue(i))
                                                 {
+                                                    strValue = "";
                                                     GenericRecord record_tem = item as GenericRecord;
-                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_Value))}]";
-                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_dxdt))}]";
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AuxType))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AuxChGlobalID))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_AuxChVirtualID))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_Value))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Aux_dxdt))}]";
                                                 }
                                                 lstCol.Add(strValue);
                                             }
@@ -503,8 +657,13 @@ namespace KafkaConsumer
                                                 strValue = "";
                                                 foreach (var item in (object[])record.GetValue(i))
                                                 {
+                                                    strValue = "";
                                                     GenericRecord record_tem = item as GenericRecord;
-                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_Value))}]";
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_MetaName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_IsOffline))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_DataType))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_Value))}]";
                                                 }
                                                 lstCol.Add(strValue);
                                             }
@@ -513,8 +672,14 @@ namespace KafkaConsumer
                                                 strValue = "";
                                                 foreach (var item in (object[])record.GetValue(i))
                                                 {
+
+                                                    strValue = "";
                                                     GenericRecord record_tem = item as GenericRecord;
-                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_Value))}]";
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_MetaName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_IsOffline))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_DataType))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_Value))}]";
                                                 }
                                                 lstCol.Add(strValue);
                                             }
@@ -541,8 +706,6 @@ namespace KafkaConsumer
                                         if (!File.Exists(strPath))
                                             CreateFile(eKafkaTopic, strPath);
                                         bOk = WriteFile_DifferenPath_Channel(eKafkaTopic, strPath, ".csv", lstLine);
-                                        //if (strPathFile != newPath)
-                                        //    strPathFile = newPath;
                                         if (!bOk)
                                         {
                                             Log($"[{eKafkaTopic}]:" + string.Join(",", lstCol));
@@ -550,8 +713,6 @@ namespace KafkaConsumer
                                         }
                                     }
                                 }
-                                //if (bOk)
-                                //    consumer.Commit(consumeResult);
                             }
                             catch (Exception ex)
                             {
@@ -573,211 +734,6 @@ namespace KafkaConsumer
                 Log($"[{eKafkaTopic}]:" + ex.Message);
             }
         }
-        //private void ConsumerChannelTopic()
-        //{
-        //    string strPathFile = $@"{m_ExportDataPath}\ChannelTopic\";
-        //    if (!Directory.Exists(strPathFile))
-        //        Directory.CreateDirectory(strPathFile);
-        //    EKafkaTopic eKafkaTopic = EKafkaTopic.Channel;
-        //    try
-        //    {
-
-        //        string schemaJson = m_CachedSchemaRegistryClient.GetLatestSchemaAsync(eKafkaTopic.ToString()).Result;
-        //        RecordSchema schema = (RecordSchema)Avro.Schema.Parse(schemaJson);
-        //        ConsumerConfig configComsume = new ConsumerConfig
-        //        {
-        //            BootstrapServers = m_BootstrapServer,
-        //            GroupId = m_GroupId,
-        //            AutoOffsetReset = AutoOffsetReset.Earliest, // 从最早的偏移量开始消费消息
-        //            EnableAutoCommit = false // 启用自动提交偏移量
-        //        };
-        //        using (var consumer = new ConsumerBuilder<string, byte[]>(configComsume).Build())
-        //        {
-        //            consumer.Subscribe(eKafkaTopic.ToString());
-        //            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        //            Console.CancelKeyPress += (_, e) =>
-        //            {
-        //                e.Cancel = false; // 防止应用程序关闭
-        //                cancellationTokenSource.Cancel();
-        //            };
-        //            try
-        //            {
-        //                bool bSelectKey = false;
-        //                string strSelect = "";
-        //                if (m_UseSerialNumber)
-        //                    strSelect += m_SerialNumber;
-        //                if (m_bTestName)
-        //                    strSelect += "_" + m_TestName;
-        //                bSelectKey = !string.IsNullOrEmpty(strSelect);
-        //                int intFilesCount = m_TopicFilesCount[eKafkaTopic];
-        //                string strPath;
-        //                while (true)
-        //                {
-        //                    try
-        //                    {
-        //                        ConsumeResult<string, byte[]> consumeResult = consumer.Consume(cancellationTokenSource.Token);
-        //                        if (bSelectKey)
-        //                        {
-        //                            if (m_UseSerialNumber && m_bTestName && !consumeResult.Key.Equals(strSelect))
-        //                            {
-        //                                consumer.Commit(consumeResult);
-        //                                continue;
-        //                            }
-        //                            if (!m_bTestName && !consumeResult.Key.Contains(strSelect))
-        //                            {
-        //                                consumer.Commit(consumeResult);
-        //                                continue;
-        //                            }
-        //                        };
-        //                        strPath = strPathFile;
-        //                        bool bOk = true;
-        //                        var serializedRecords = consumeResult.Message.Value;
-        //                        using (var memoryStream = new System.IO.MemoryStream(serializedRecords))
-        //                        {
-        //                            var reader = new BinaryDecoder(memoryStream);
-        //                            var avroReader = new GenericDatumReader<GenericRecord>(schema,
-        //                            schema);
-        //                            while (memoryStream.Position < memoryStream.Length)
-        //                            {
-        //                                GenericRecord record = avroReader.Read(null, reader);
-        //                                if (m_bTestID && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_TestID)) == m_TestID)
-        //                                {
-        //                                    continue;
-        //                                }
-        //                                if (m_bChanel && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_Chan)) == m_Chanel)
-        //                                {
-        //                                    continue;
-        //                                }
-        //                                //Console.WriteLine("DataPoint:"+ record.GetValue((int)EMonitorFieldPos.Channel_DataPoint));
-        //                                //continue;
-        //                                List<string> lstLine = new List<string>();
-        //                                List<string> lstCol = new List<string>();
-        //                                string strValue;
-        //                                for (int i = 0; i < intFilesCount; i++)
-        //                                {
-        //                                    switch (i)
-        //                                    {
-        //                                        case 0: //SerialNumber
-        //                                        case 2: //TestName
-        //                                        case 3: //TestID
-        //                                        case 4: //ChannelID
-        //                                            strValue = Convert.ToString(record.GetValue(i));
-        //                                            strPath += strValue;
-        //                                            lstCol.Add(strValue);
-        //                                            break;
-        //                                        case 7: //Status
-        //                                            lstCol.Add(Enum.GetName(typeof(EChannelStatus), Convert.ToInt32(record.GetValue(i))));
-        //                                            break;
-        //                                        case 25://Auxs
-        //                                            strValue = "";
-        //                                            foreach (var item in (object[])record.GetValue(i))
-        //                                            {
-        //                                                record = item as GenericRecord;
-        //                                                strValue += $"[{Convert.ToString(record.GetValue((int)EMonitorFieldPos.Aux_Value))}]";
-        //                                                strValue += $"[{Convert.ToString(record.GetValue((int)EMonitorFieldPos.Aux_dxdt))}]";
-        //                                            }
-        //                                            lstCol.Add(strValue);
-        //                                            break;
-        //                                        case 26://CANBMSs
-        //                                            strValue = "";
-        //                                            foreach (var item in (object[])record.GetValue(i))
-        //                                            {
-        //                                                record = item as GenericRecord;
-        //                                                strValue += $"[{Convert.ToString(record.GetValue((int)EMonitorFieldPos.CANBMS_Value))}]";
-        //                                            }
-        //                                            lstCol.Add(strValue);
-        //                                            break;
-        //                                        case 27://SMBs
-        //                                            strValue = "";
-        //                                            foreach (var item in (object[])record.GetValue(i))
-        //                                            {
-        //                                                record = item as GenericRecord;
-        //                                                strValue += $"[{Convert.ToString(record.GetValue((int)EMonitorFieldPos.SMB_Value))}]";
-        //                                            }
-        //                                            lstCol.Add(strValue);
-        //                                            break;
-        //                                        default:
-        //                                            break;
-        //                                    }
-        //                                }
-        //                                //Dictionary<string, object> recordDict = record.Schema.Fields.ToDictionary(
-        //                                //    field => field.Name,
-        //                                //    field => record.GetValue(field.Pos)
-        //                                //);
-        //                                //List<string> lstLine = new List<string>();
-        //                                //List<string> lstCol = new List<string>();
-        //                                //foreach (var keyValue in recordDict)
-        //                                //{
-        //                                //    if (keyValue.Key == "Auxs")
-        //                                //    {
-        //                                //        foreach (var item in (object[])keyValue.Value)
-        //                                //        {
-        //                                //            record = item as GenericRecord;
-        //                                //            object Aux_Value = record.GetValue((int)EMonitorFieldPos.Aux_Value);
-        //                                //            object Aux_dxdt = record.GetValue((int)EMonitorFieldPos.Aux_dxdt);
-        //                                //            lstCol.Add(Convert.ToString(Aux_Value));
-        //                                //            lstCol.Add(Convert.ToString(Aux_dxdt));
-        //                                //        }
-        //                                //    }
-        //                                //    else if (keyValue.Key == "CANBMSs")
-        //                                //    {
-        //                                //        foreach (var item in (object[])keyValue.Value)
-        //                                //        {
-        //                                //            record = item as GenericRecord;
-        //                                //            lstCol.Add(Convert.ToString(record.GetValue((int)EMonitorFieldPos.CANBMS_Value)));
-        //                                //        }
-        //                                //    }
-        //                                //    else if (keyValue.Key == "SMBs")
-        //                                //    {
-        //                                //        foreach (var item in (object[])keyValue.Value)
-        //                                //        {
-        //                                //            record = item as GenericRecord;
-        //                                //            lstCol.Add(Convert.ToString(record.GetValue((int)EMonitorFieldPos.SMB_Value)));
-        //                                //        }
-        //                                //    }
-        //                                //    else if (keyValue.Key == "Status")
-        //                                //    {
-        //                                //        lstCol.Add(Enum.GetName(typeof(EChannelStatus), Convert.ToInt32(keyValue.Value)));
-        //                                //    }
-        //                                //    else
-        //                                //    {
-        //                                //        lstCol.Add(Convert.ToString(keyValue.Value));
-        //                                //    }
-        //                                //}
-        //                                lstLine.Add(string.Join(",", lstCol));
-        //                                bOk = WriteFile_DifferenPath(eKafkaTopic, strPath, ".csv", lstLine, out string newPath);
-        //                                if (strPathFile != newPath)
-        //                                    strPathFile = newPath;
-        //                                if (!bOk)
-        //                                {
-        //                                    Log($"[{eKafkaTopic}]:" + string.Join(",", lstCol));
-        //                                    continue;
-        //                                }
-        //                            }
-        //                        }
-        //                        if (bOk)
-        //                            consumer.Commit(consumeResult);
-        //                    }
-        //                    catch (Exception ex)
-        //                    {
-        //                        Log($"[{eKafkaTopic}]:" + ex.Message);
-        //                        continue;
-        //                    }
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                Log($"[{eKafkaTopic}]:Consumer Close;" + ex.Message);
-        //                // 用户取消操作，关闭消费者
-        //                consumer.Close();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log($"[{eKafkaTopic}]:" + ex.Message);
-        //    }
-        //}
         private void ConsumerTestInfoTopic()
         {
             EKafkaTopic eKafkaTopic = EKafkaTopic.TestInfo;
@@ -1271,6 +1227,7 @@ namespace KafkaConsumer
                 CreateFile(EKafkaTopic.Channel, $@"{m_ExportDataPath}\Channel.csv",false);
                 CreateFile(EKafkaTopic.Event, $@"{m_ExportDataPath}\Event.csv");
                 CreateFile(EKafkaTopic.DiagnosticEvent, $@"{m_ExportDataPath}\DiagnosticEvent.csv");
+                CreateFile(EKafkaTopic.SubChannel, $@"{m_ExportDataPath}\SubChannel.csv");
             }
             catch (Exception ex)
             {
@@ -1290,7 +1247,7 @@ namespace KafkaConsumer
                 {
                     strField = lstFields[i];
                     AddNameMapIndex($"{EKafkaTopic.Monitor}_{strField}", i);
-                    if (strField == "Auxs" || strField == "CANBMSs" || strField == "SMBs")
+                    if (strField == "Auxs" || strField == "CANBMSs" || strField == "SMBs" || strField == "SubChannels")
                         continue;
                     m_dtServicesArbin.Columns.Add(strField, Type.GetType("System.String"));
                 }

@@ -16,7 +16,8 @@ namespace KafkaConsumer
         CANBMS,
         SMB,
         Event,
-        DiagnosticEvent
+        DiagnosticEvent,
+        SubChannel,
     }
     public enum EMonitorFieldPos
     {
@@ -42,6 +43,7 @@ namespace KafkaConsumer
         dQdV,
         dVdQ,
         Aux,
+        Aux_AuxType = 0,
         Aux_AliasName = 1,
         Aux_AuxChGlobalID = 2,
         Aux_AuxChVirtualID = 3,
@@ -49,10 +51,14 @@ namespace KafkaConsumer
         Aux_dxdt = 5,
         CANBMS_MetaName = 0,
         CANBMS_AliasName = 1,
-        CANBMS_Value = 3,
+        CANBMS_IsOffline = 2,
+        CANBMS_DataType = 3,
+        CANBMS_Value = 4,
         SMB_MetaName = 0,
         SMB_AliasName = 1,
-        SMB_Value = 3,
+        SMB_IsOffline = 2,
+        SMB_DataType = 3,
+        SMB_Value = 4,
         SimulationName = 0,
         Mapping_AuxType = 0,
         Mapping_AuxChGlobalID = 1,
