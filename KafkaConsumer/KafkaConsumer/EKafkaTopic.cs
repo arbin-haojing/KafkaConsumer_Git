@@ -89,7 +89,15 @@ namespace KafkaConsumer
         Channel_dVdQ,
         Channel_Aux,
         Channel_CANBMSs,
-        Channel_SMBs
+        Channel_SMBs,
+        Channel_SMB_MetaName = 0,
+        Channel_SMB_AliasName = 1,
+        Channel_SMB_DataType = 2,
+        Channel_SMB_Value = 3,
+        Channel_CANBMS_MetaName = 0,
+        Channel_CANBMS_AliasName = 1,
+        Channel_CANBMS_DataType = 2,
+        Channel_CANBMS_Value = 3,
     }
     public enum EChannelStatus : int
     {

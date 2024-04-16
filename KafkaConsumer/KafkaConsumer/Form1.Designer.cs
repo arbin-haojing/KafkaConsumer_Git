@@ -300,7 +300,7 @@ namespace KafkaConsumer
             this.ClientSize = new System.Drawing.Size(796, 707);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Kafka Consumer (V2.0.1)";
+            this.Text = "Kafka Consumer (V2.0.5)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);

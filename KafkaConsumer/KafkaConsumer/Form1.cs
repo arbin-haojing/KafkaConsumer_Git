@@ -308,16 +308,17 @@ namespace KafkaConsumer
                                                     dataRow[i] = record.GetValue(i);
                                                 }
                                             }
+                                            #region AUX
                                             object[] aux = (object[])record.GetValue(m_NameMapIndex[$"{eKafkaTopic}_Auxs"]);
-                                            int auxCount = aux.Count();
-
-                                            Dictionary<string, int> m_auxTypeCount = new Dictionary<string, int>();
-                                            for (int i = 0; i < auxCount; i++)
+                                            for (int i = 0; i < aux.Count(); i++)
                                             {
-                                                record = aux[i] as GenericRecord;
-                                                object Aux_AliasName = record.GetValue((int)EMonitorFieldPos.Aux_AliasName);
-                                                object Aux_AuxChVirtualID = record.GetValue((int)EMonitorFieldPos.Aux_AuxChVirtualID);
-                                                object Aux_Value = record.GetValue((int)EMonitorFieldPos.Aux_Value);
+                                                GenericRecord _record = aux[i] as GenericRecord;
+                                                object Aux_AuxType = _record.GetValue((int)EMonitorFieldPos.Aux_AuxType);
+                                                object Aux_AliasName = _record.GetValue((int)EMonitorFieldPos.Aux_AliasName);
+                                                object Aux_AuxChGlobalID = _record.GetValue((int)EMonitorFieldPos.Aux_AuxChGlobalID);
+                                                object Aux_AuxChVirtualID = _record.GetValue((int)EMonitorFieldPos.Aux_AuxChVirtualID);
+                                                object Aux_Value = _record.GetValue((int)EMonitorFieldPos.Aux_Value);
+                                                object Aux_dxdt = _record.GetValue((int)EMonitorFieldPos.Aux_dxdt);
                                                 string colnumName = GetAuxColumn(Convert.ToString(Aux_AliasName), Convert.ToInt32(Aux_AuxChVirtualID));
                                                 Console.WriteLine(colnumName);
                                                 if (!m_dtServicesArbin.Columns.Contains(colnumName))
@@ -325,8 +326,45 @@ namespace KafkaConsumer
                                                     m_dtServicesArbin.Columns.Add(colnumName, Type.GetType("System.String"));
                                                     m_RefresherColumn = true;
                                                 }
-                                                dataRow[colnumName] = Aux_Value;
+                                                dataRow[colnumName] = $"{Aux_AuxType}^{Aux_AliasName}^{Aux_AuxChGlobalID}^{Aux_AuxChVirtualID}^{Aux_Value}^{Aux_dxdt}";
                                             }
+                                            #endregion
+                                            #region CAN
+                                            object[] can = (object[])record.GetValue(m_NameMapIndex[$"{eKafkaTopic}_CANBMSs"]);
+                                            for (int i = 0; i < can.Count(); i++)
+                                            {
+                                                GenericRecord _record = can[i] as GenericRecord;
+                                                string MetaName = Convert.ToString(_record.GetValue((int)EMonitorFieldPos.CANBMS_MetaName));
+                                                object AliasName = _record.GetValue((int)EMonitorFieldPos.CANBMS_AliasName);
+                                                object IsOffline = _record.GetValue((int)EMonitorFieldPos.CANBMS_IsOffline);
+                                                object DataType = _record.GetValue((int)EMonitorFieldPos.CANBMS_DataType);
+                                                object Value = _record.GetValue((int)EMonitorFieldPos.CANBMS_Value);
+                                                if (!m_dtServicesArbin.Columns.Contains(MetaName))
+                                                {
+                                                    m_dtServicesArbin.Columns.Add(MetaName, Type.GetType("System.String"));
+                                                    m_RefresherColumn = true;
+                                                }
+                                                dataRow[MetaName] = $"{MetaName}^{AliasName}^{IsOffline}^{DataType}^{Value}";
+                                            }
+                                            #endregion
+                                            #region SMB
+                                            object[] smb = (object[])record.GetValue(m_NameMapIndex[$"{eKafkaTopic}_SMBs"]);
+                                            for (int i = 0; i < smb.Count(); i++)
+                                            {
+                                                GenericRecord _record = smb[i] as GenericRecord;
+                                                string MetaName = Convert.ToString(_record.GetValue((int)EMonitorFieldPos.SMB_MetaName));
+                                                object AliasName = _record.GetValue((int)EMonitorFieldPos.SMB_AliasName);
+                                                object IsOffline = _record.GetValue((int)EMonitorFieldPos.SMB_IsOffline);
+                                                object DataType = _record.GetValue((int)EMonitorFieldPos.SMB_DataType);
+                                                object Value = _record.GetValue((int)EMonitorFieldPos.SMB_Value);
+                                                if (!m_dtServicesArbin.Columns.Contains(MetaName))
+                                                {
+                                                    m_dtServicesArbin.Columns.Add(MetaName, Type.GetType("System.String"));
+                                                    m_RefresherColumn = true;
+                                                }
+                                                dataRow[MetaName] = $"{MetaName}^{AliasName}^{IsOffline}^{DataType}^{Value}";
+                                            }
+                                            #endregion
                                             if (m_RefresherColumn)
                                             {
                                                 if (dataGridView1.InvokeRequired)
@@ -476,11 +514,10 @@ namespace KafkaConsumer
                                                 {
                                                     strValue = "";
                                                     GenericRecord record_tem = item as GenericRecord;
-                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_MetaName))}";
-                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_AliasName))}";
-                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_IsOffline))}";
-                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_DataType - 1))}";
-                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.CANBMS_Value -1))}]";
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_CANBMS_MetaName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_CANBMS_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_CANBMS_DataType))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_CANBMS_Value))}]";
                                                     lstCol.Add(strValue);
                                                 }
                                                 //lstCol.Add(strValue);
@@ -493,11 +530,10 @@ namespace KafkaConsumer
 
                                                     strValue = "";
                                                     GenericRecord record_tem = item as GenericRecord;
-                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_MetaName))}";
-                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_AliasName))}";
-                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_IsOffline))}";
-                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_DataType))}";
-                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.SMB_Value))}]";
+                                                    strValue += $"[{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_SMB_MetaName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_SMB_AliasName))}";
+                                                    strValue += $"^{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_SMB_DataType))}";
+                                                    strValue += $"{Convert.ToString(record_tem.GetValue((int)EMonitorFieldPos.Channel_SMB_Value))}]";
                                                     lstCol.Add(strValue);
                                                 }
                                                 //lstCol.Add(strValue);
@@ -819,8 +855,8 @@ namespace KafkaConsumer
                                                 string strValue = "";
                                                 foreach (var item in (object[])keyValue.Value)
                                                 {
-                                                    record = item as GenericRecord;
-                                                    strValue += $"[{Convert.ToString(record.GetValue((int)EMonitorFieldPos.SimulationName))}]";
+                                                    //record = item as GenericRecord;
+                                                    strValue += $"[{item}]";
                                                 }
                                                 if (strValue.EndsWith(";"))
                                                     strValue = strValue.Remove(strValue.Length - 1);
@@ -1251,36 +1287,6 @@ namespace KafkaConsumer
                         continue;
                     m_dtServicesArbin.Columns.Add(strField, Type.GetType("System.String"));
                 }
-                //m_dtServicesArbin.Columns.Add("SerialNumber", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Barcode", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("TestName", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ChannelID", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("MasterChannelID", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Exit Condition", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Status", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ScheduleName", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("CANBMSName", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("SMBName", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ChartName", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("TestTime", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Steptime", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("StepAndCycle", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("CycleID", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("StepID", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Current", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Voltage", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("Power", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ChargeCapacity", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("DischargeCapacity", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ChargeEnergy", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("DischargeEnergy", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("InternalResistance", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("dVdt", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("dQdV", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("dVdQ", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ACR", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ACI", Type.GetType("System.String"));
-                //m_dtServicesArbin.Columns.Add("ACIPhase", Type.GetType("System.String"));
                 m_PublicColumnCount = m_dtServicesArbin.Columns.Count;
                 //for (int i = 0; i < 8; i++)
                 //{
