@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KafkaConsumer
 {
-    public enum EKafkaTopic
+    public enum EKafkaTopic_old
     {
         None = 0,
         Monitor,
@@ -18,6 +19,19 @@ namespace KafkaConsumer
         Event,
         DiagnosticEvent,
         SubChannel,
+    }
+    public enum EKafkaTopic
+    {
+        None = 0,
+        ChannelMonitorData,
+        ChannelTestInfoData,
+        ChannelData,
+        Auxiliary,
+        CANBMS,
+        SMB,
+        ChannelEventData,
+        ChannelDiagnosticEventData,
+        SubChannelData,
     }
     public enum EMonitorFieldPos
     {
@@ -150,5 +164,10 @@ namespace KafkaConsumer
         Aux_Humidity,
         Aux_AnalogOutput,
         Aux_Current,
+    }
+    public enum EMessageFormat
+    {
+        AVRO,
+        JSON,
     }
 }

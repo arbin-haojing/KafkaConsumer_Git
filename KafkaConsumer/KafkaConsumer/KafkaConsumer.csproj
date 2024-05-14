@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\librdkafka.redist.1.8.2\build\librdkafka.redist.props" Condition="Exists('..\packages\librdkafka.redist.1.8.2\build\librdkafka.redist.props')" />
+  <Import Project="..\packages\librdkafka.redist.2.4.0\build\librdkafka.redist.props" Condition="Exists('..\packages\librdkafka.redist.2.4.0\build\librdkafka.redist.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,6 +48,9 @@
     <Reference Include="Confluent.SchemaRegistry.Serdes.Avro, Version=1.8.2.0, Culture=neutral, PublicKeyToken=72eef0b27442ef0a, processorArchitecture=MSIL">
       <HintPath>..\packages\Confluent.SchemaRegistry.Serdes.Avro.1.8.2\lib\netstandard2.0\Confluent.SchemaRegistry.Serdes.Avro.dll</HintPath>
     </Reference>
+    <Reference Include="Confluent.SchemaRegistry.Serdes.Json">
+      <HintPath>..\BuildDLL\Confluent.SchemaRegistry.Serdes.Json.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -59,6 +62,9 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NJsonSchema">
+      <HintPath>..\BuildDLL\NJsonSchema.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -124,6 +130,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonData\AuxData.cs" />
+    <Compile Include="CommonData\AuxMapping.cs" />
+    <Compile Include="CommonData\CANInfo.cs" />
+    <Compile Include="CommonData\CANMonitorInfo.cs" />
+    <Compile Include="CommonData\SimulationInfo.cs" />
+    <Compile Include="CommonData\SMBInfo.cs" />
+    <Compile Include="CommonData\SMBMonitorInfo.cs" />
+    <Compile Include="CommonData\SubChannelInfo.cs" />
+    <Compile Include="CommonData\TestInfoMapping.cs" />
+    <Compile Include="CommonHelper.cs" />
+    <Compile Include="ConsumerAvro.cs" />
+    <Compile Include="ConsumerJson.cs" />
     <Compile Include="EKafkaTopic.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -133,12 +151,20 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopicClass\ArbinDataModelBase.cs" />
+    <Compile Include="TopicClass\ChannelData.cs" />
+    <Compile Include="TopicClass\ChannelDiagnosticEventData.cs" />
+    <Compile Include="TopicClass\ChannelEventData.cs" />
+    <Compile Include="TopicClass\ChannelMonitorData.cs" />
+    <Compile Include="TopicClass\ChannelTestInfoData.cs" />
+    <Compile Include="TopicClass\SubChannelData.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -149,6 +175,6 @@
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\librdkafka.redist.1.8.2\build\librdkafka.redist.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\librdkafka.redist.1.8.2\build\librdkafka.redist.props'))" />
+    <Error Condition="!Exists('..\packages\librdkafka.redist.2.4.0\build\librdkafka.redist.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\librdkafka.redist.2.4.0\build\librdkafka.redist.props'))" />
   </Target>
 </Project>
