@@ -33,26 +33,26 @@ namespace KafkaConsumer
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.txtGroupId = new System.Windows.Forms.TextBox();
-            this.cmbMessageFormat = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.txtSchemaRegisterServer = new System.Windows.Forms.TextBox();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.txtFileSize = new System.Windows.Forms.TextBox();
             this.txtBootstrapServer = new System.Windows.Forms.TextBox();
             this.LabSchemaRegisterServer = new System.Windows.Forms.Label();
             this.labBootstrapServer = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnStart = new System.Windows.Forms.Button();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.txtTestID = new System.Windows.Forms.TextBox();
             this.txtChannel = new System.Windows.Forms.TextBox();
             this.txtTestName = new System.Windows.Forms.TextBox();
             this.txtSerialNumber = new System.Windows.Forms.TextBox();
+            this.txtSchemaRegisterServer = new System.Windows.Forms.TextBox();
+            this.txtGroupId = new System.Windows.Forms.TextBox();
+            this.cmbMessageFormat = new DevExpress.XtraEditors.ComboBoxEdit();
             this.chkConsumerMonitor = new System.Windows.Forms.CheckBox();
             this.chkTestID = new System.Windows.Forms.CheckBox();
             this.chkChannel = new System.Windows.Forms.CheckBox();
             this.chkTestName = new System.Windows.Forms.CheckBox();
             this.chkSerialNumber = new System.Windows.Forms.CheckBox();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.txtFileSize = new System.Windows.Forms.TextBox();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.btnStart = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -147,40 +147,23 @@ namespace KafkaConsumer
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1215, 302);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // txtGroupId
+            // labelControl2
             // 
-            this.txtGroupId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtGroupId.Location = new System.Drawing.Point(201, 63);
-            this.txtGroupId.Name = "txtGroupId";
-            this.txtGroupId.ReadOnly = true;
-            this.txtGroupId.Size = new System.Drawing.Size(1011, 21);
-            this.txtGroupId.TabIndex = 7;
+            this.labelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl2.Location = new System.Drawing.Point(3, 123);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(192, 24);
+            this.labelControl2.TabIndex = 36;
+            this.labelControl2.Text = "Export File Size (M)";
             // 
-            // cmbMessageFormat
+            // txtFileSize
             // 
-            this.cmbMessageFormat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbMessageFormat.EditValue = "AVRO";
-            this.cmbMessageFormat.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.cmbMessageFormat.Location = new System.Drawing.Point(200, 93);
-            this.cmbMessageFormat.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.cmbMessageFormat.Name = "cmbMessageFormat";
-            this.cmbMessageFormat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbMessageFormat.Properties.DropDownRows = 2;
-            this.cmbMessageFormat.Properties.Items.AddRange(new object[] {
-            "AVRO",
-            "JSON"});
-            this.cmbMessageFormat.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cmbMessageFormat.Size = new System.Drawing.Size(1013, 20);
-            this.cmbMessageFormat.TabIndex = 34;
-            // 
-            // txtSchemaRegisterServer
-            // 
-            this.txtSchemaRegisterServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSchemaRegisterServer.Location = new System.Drawing.Point(201, 33);
-            this.txtSchemaRegisterServer.Name = "txtSchemaRegisterServer";
-            this.txtSchemaRegisterServer.Size = new System.Drawing.Size(1011, 21);
-            this.txtSchemaRegisterServer.TabIndex = 5;
+            this.txtFileSize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFileSize.Location = new System.Drawing.Point(201, 123);
+            this.txtFileSize.Name = "txtFileSize";
+            this.txtFileSize.Size = new System.Drawing.Size(1011, 21);
+            this.txtFileSize.TabIndex = 37;
+            this.txtFileSize.Text = "100";
             // 
             // txtBootstrapServer
             // 
@@ -220,16 +203,14 @@ namespace KafkaConsumer
             this.label4.TabIndex = 3;
             this.label4.Text = "GroupId";
             // 
-            // btnStart
+            // labelControl1
             // 
-            this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStart.Location = new System.Drawing.Point(201, 273);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(1011, 26);
-            this.btnStart.TabIndex = 8;
-            this.btnStart.Text = "Start Consumer";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.labelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl1.Location = new System.Drawing.Point(3, 93);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(192, 24);
+            this.labelControl1.TabIndex = 35;
+            this.labelControl1.Text = "Message Format";
             // 
             // txtTestID
             // 
@@ -262,6 +243,41 @@ namespace KafkaConsumer
             this.txtSerialNumber.Name = "txtSerialNumber";
             this.txtSerialNumber.Size = new System.Drawing.Size(1011, 21);
             this.txtSerialNumber.TabIndex = 6;
+            // 
+            // txtSchemaRegisterServer
+            // 
+            this.txtSchemaRegisterServer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSchemaRegisterServer.Location = new System.Drawing.Point(201, 33);
+            this.txtSchemaRegisterServer.Name = "txtSchemaRegisterServer";
+            this.txtSchemaRegisterServer.Size = new System.Drawing.Size(1011, 21);
+            this.txtSchemaRegisterServer.TabIndex = 5;
+            // 
+            // txtGroupId
+            // 
+            this.txtGroupId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtGroupId.Location = new System.Drawing.Point(201, 63);
+            this.txtGroupId.Name = "txtGroupId";
+            this.txtGroupId.ReadOnly = true;
+            this.txtGroupId.Size = new System.Drawing.Size(1011, 21);
+            this.txtGroupId.TabIndex = 7;
+            // 
+            // cmbMessageFormat
+            // 
+            this.cmbMessageFormat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbMessageFormat.EditValue = "AVRO";
+            this.cmbMessageFormat.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbMessageFormat.Location = new System.Drawing.Point(200, 93);
+            this.cmbMessageFormat.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cmbMessageFormat.Name = "cmbMessageFormat";
+            this.cmbMessageFormat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbMessageFormat.Properties.DropDownRows = 2;
+            this.cmbMessageFormat.Properties.Items.AddRange(new object[] {
+            "AVRO",
+            "JSON"});
+            this.cmbMessageFormat.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cmbMessageFormat.Size = new System.Drawing.Size(1013, 20);
+            this.cmbMessageFormat.TabIndex = 34;
             // 
             // chkConsumerMonitor
             // 
@@ -323,32 +339,16 @@ namespace KafkaConsumer
             this.chkSerialNumber.UseVisualStyleBackColor = true;
             this.chkSerialNumber.CheckedChanged += new System.EventHandler(this.chkSerialNumber_CheckedChanged);
             // 
-            // labelControl1
+            // btnStart
             // 
-            this.labelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelControl1.Location = new System.Drawing.Point(3, 93);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(192, 24);
-            this.labelControl1.TabIndex = 35;
-            this.labelControl1.Text = "Message Format";
-            // 
-            // txtFileSize
-            // 
-            this.txtFileSize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFileSize.Location = new System.Drawing.Point(201, 123);
-            this.txtFileSize.Name = "txtFileSize";
-            this.txtFileSize.Size = new System.Drawing.Size(1011, 21);
-            this.txtFileSize.TabIndex = 37;
-            this.txtFileSize.Text = "100";
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelControl2.Location = new System.Drawing.Point(3, 123);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(192, 24);
-            this.labelControl2.TabIndex = 36;
-            this.labelControl2.Text = "Export File Size (M)";
+            this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnStart.Location = new System.Drawing.Point(201, 273);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(1011, 26);
+            this.btnStart.TabIndex = 8;
+            this.btnStart.Text = "Start Consumer";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // Form1
             // 
@@ -357,7 +357,7 @@ namespace KafkaConsumer
             this.ClientSize = new System.Drawing.Size(1215, 707);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Kafka Consumer (V2.0.5)";
+            this.Text = "Kafka Consumer (V3.0.0)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
