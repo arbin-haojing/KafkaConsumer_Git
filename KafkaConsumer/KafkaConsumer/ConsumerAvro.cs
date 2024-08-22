@@ -77,8 +77,8 @@ namespace KafkaConsumer
                             GenericRecord record = consumeResult.Message.Value;
                             if (m_bTestID && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_TestID)) != m_TestID)
                                 continue;
-                            if (m_bChanel && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_Chan)) != m_Chanel)
-                                continue;
+                            //if (m_bChanel && Convert.ToString(record.GetValue((int)EMonitorFieldPos.Channel_Chan)) != m_Chanel)
+                            //    continue;
                             strPath = strPathFile;
                             List<string> lstLine = new List<string>();
                             List<string> lstCol = new List<string>();

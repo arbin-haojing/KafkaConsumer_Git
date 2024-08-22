@@ -33,25 +33,34 @@ namespace KafkaConsumer
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.txtFileSize = new System.Windows.Forms.TextBox();
+            this.chkConfluentCloud = new System.Windows.Forms.CheckBox();
+            this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.txtBasicAuthPassword = new System.Windows.Forms.TextBox();
+            this.txtBasicAuthUsername = new System.Windows.Forms.TextBox();
+            this.txtSaslPassword = new System.Windows.Forms.TextBox();
+            this.txtSaslUsername = new System.Windows.Forms.TextBox();
             this.txtBootstrapServer = new System.Windows.Forms.TextBox();
-            this.LabSchemaRegisterServer = new System.Windows.Forms.Label();
-            this.labBootstrapServer = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.txtTestID = new System.Windows.Forms.TextBox();
-            this.txtChannel = new System.Windows.Forms.TextBox();
-            this.txtTestName = new System.Windows.Forms.TextBox();
-            this.txtSerialNumber = new System.Windows.Forms.TextBox();
-            this.txtSchemaRegisterServer = new System.Windows.Forms.TextBox();
-            this.txtGroupId = new System.Windows.Forms.TextBox();
-            this.cmbMessageFormat = new DevExpress.XtraEditors.ComboBoxEdit();
             this.chkConsumerMonitor = new System.Windows.Forms.CheckBox();
             this.chkTestID = new System.Windows.Forms.CheckBox();
             this.chkChannel = new System.Windows.Forms.CheckBox();
             this.chkTestName = new System.Windows.Forms.CheckBox();
             this.chkSerialNumber = new System.Windows.Forms.CheckBox();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.txtTestID = new System.Windows.Forms.TextBox();
+            this.txtChannel = new System.Windows.Forms.TextBox();
+            this.txtTestName = new System.Windows.Forms.TextBox();
+            this.txtSerialNumber = new System.Windows.Forms.TextBox();
+            this.txtFileSize = new System.Windows.Forms.TextBox();
+            this.cmbMessageFormat = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.txtGroupId = new System.Windows.Forms.TextBox();
+            this.txtSchemaRegisterServer = new System.Windows.Forms.TextBox();
             this.btnStart = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -72,8 +81,9 @@ namespace KafkaConsumer
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1215, 401);
+            this.dataGridView1.Size = new System.Drawing.Size(1301, 385);
             this.dataGridView1.TabIndex = 1;
             // 
             // panel1
@@ -84,7 +94,7 @@ namespace KafkaConsumer
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1215, 707);
+            this.panel1.Size = new System.Drawing.Size(1301, 785);
             this.panel1.TabIndex = 2;
             // 
             // splitContainer1
@@ -101,8 +111,8 @@ namespace KafkaConsumer
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Size = new System.Drawing.Size(1215, 707);
-            this.splitContainer1.SplitterDistance = 302;
+            this.splitContainer1.Size = new System.Drawing.Size(1301, 785);
+            this.splitContainer1.SplitterDistance = 396;
             this.splitContainer1.TabIndex = 2;
             // 
             // tableLayoutPanel1
@@ -110,183 +120,183 @@ namespace KafkaConsumer
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.labelControl2, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.txtFileSize, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.txtBootstrapServer, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LabSchemaRegisterServer, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labBootstrapServer, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.labelControl1, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.txtTestID, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.txtChannel, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.txtTestName, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.txtSerialNumber, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.txtSchemaRegisterServer, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.txtGroupId, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.cmbMessageFormat, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.chkConsumerMonitor, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.chkTestID, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.chkChannel, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.chkTestName, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.chkSerialNumber, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.btnStart, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.btnStart, 1, 14);
+            this.tableLayoutPanel1.Controls.Add(this.txtTestID, 1, 13);
+            this.tableLayoutPanel1.Controls.Add(this.txtChannel, 1, 12);
+            this.tableLayoutPanel1.Controls.Add(this.txtTestName, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.txtSerialNumber, 1, 10);
+            this.tableLayoutPanel1.Controls.Add(this.txtFileSize, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.cmbMessageFormat, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.txtGroupId, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.txtBasicAuthPassword, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtBasicAuthUsername, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.txtSchemaRegisterServer, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.txtSaslPassword, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.txtSaslUsername, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.txtBootstrapServer, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.chkConsumerMonitor, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.chkTestID, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.chkChannel, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.chkTestName, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.chkSerialNumber, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl2, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl1, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl9, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl6, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl5, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl8, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelControl7, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.chkConfluentCloud, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 10;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.01001F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.909912F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1215, 302);
+            this.tableLayoutPanel1.RowCount = 15;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672894F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.606167F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666222F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666222F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666222F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666222F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.672888F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1301, 396);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // labelControl2
+            // chkConfluentCloud
             // 
-            this.labelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelControl2.Location = new System.Drawing.Point(3, 123);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(192, 24);
-            this.labelControl2.TabIndex = 36;
-            this.labelControl2.Text = "Export File Size (M)";
+            this.chkConfluentCloud.AutoSize = true;
+            this.chkConfluentCloud.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkConfluentCloud.Location = new System.Drawing.Point(3, 3);
+            this.chkConfluentCloud.Name = "chkConfluentCloud";
+            this.chkConfluentCloud.Size = new System.Drawing.Size(192, 20);
+            this.chkConfluentCloud.TabIndex = 49;
+            this.chkConfluentCloud.Text = "Confluent Cloud";
+            this.chkConfluentCloud.UseVisualStyleBackColor = true;
+            this.chkConfluentCloud.CheckedChanged += new System.EventHandler(this.chkConfluentCloud_CheckedChanged);
             // 
-            // txtFileSize
+            // labelControl9
             // 
-            this.txtFileSize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFileSize.Location = new System.Drawing.Point(201, 123);
-            this.txtFileSize.Name = "txtFileSize";
-            this.txtFileSize.Size = new System.Drawing.Size(1011, 21);
-            this.txtFileSize.TabIndex = 37;
-            this.txtFileSize.Text = "100";
+            this.labelControl9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl9.Location = new System.Drawing.Point(3, 185);
+            this.labelControl9.Name = "labelControl9";
+            this.labelControl9.Size = new System.Drawing.Size(192, 20);
+            this.labelControl9.TabIndex = 48;
+            this.labelControl9.Text = "GroupId";
+            // 
+            // labelControl8
+            // 
+            this.labelControl8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl8.Location = new System.Drawing.Point(3, 107);
+            this.labelControl8.Name = "labelControl8";
+            this.labelControl8.Size = new System.Drawing.Size(192, 20);
+            this.labelControl8.TabIndex = 47;
+            this.labelControl8.Text = "Schema Register Server";
+            // 
+            // labelControl7
+            // 
+            this.labelControl7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl7.Location = new System.Drawing.Point(3, 29);
+            this.labelControl7.Name = "labelControl7";
+            this.labelControl7.Size = new System.Drawing.Size(192, 20);
+            this.labelControl7.TabIndex = 46;
+            this.labelControl7.Text = "Bootstrap Server";
+            // 
+            // labelControl6
+            // 
+            this.labelControl6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl6.Location = new System.Drawing.Point(3, 159);
+            this.labelControl6.Name = "labelControl6";
+            this.labelControl6.Size = new System.Drawing.Size(192, 20);
+            this.labelControl6.TabIndex = 45;
+            this.labelControl6.Text = "Basic Auth Password";
+            // 
+            // labelControl5
+            // 
+            this.labelControl5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl5.Location = new System.Drawing.Point(3, 133);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(192, 20);
+            this.labelControl5.TabIndex = 44;
+            this.labelControl5.Text = "Basic Auth Username";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl4.Location = new System.Drawing.Point(3, 81);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(192, 20);
+            this.labelControl4.TabIndex = 43;
+            this.labelControl4.Text = "Sasl Password";
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl3.Location = new System.Drawing.Point(3, 55);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(192, 20);
+            this.labelControl3.TabIndex = 42;
+            this.labelControl3.Text = "Sasl Username";
+            // 
+            // txtBasicAuthPassword
+            // 
+            this.txtBasicAuthPassword.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBasicAuthPassword.Enabled = false;
+            this.txtBasicAuthPassword.Location = new System.Drawing.Point(201, 159);
+            this.txtBasicAuthPassword.Name = "txtBasicAuthPassword";
+            this.txtBasicAuthPassword.Size = new System.Drawing.Size(1097, 21);
+            this.txtBasicAuthPassword.TabIndex = 41;
+            // 
+            // txtBasicAuthUsername
+            // 
+            this.txtBasicAuthUsername.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBasicAuthUsername.Enabled = false;
+            this.txtBasicAuthUsername.Location = new System.Drawing.Point(201, 133);
+            this.txtBasicAuthUsername.Name = "txtBasicAuthUsername";
+            this.txtBasicAuthUsername.Size = new System.Drawing.Size(1097, 21);
+            this.txtBasicAuthUsername.TabIndex = 39;
+            // 
+            // txtSaslPassword
+            // 
+            this.txtSaslPassword.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSaslPassword.Enabled = false;
+            this.txtSaslPassword.Location = new System.Drawing.Point(201, 81);
+            this.txtSaslPassword.Name = "txtSaslPassword";
+            this.txtSaslPassword.Size = new System.Drawing.Size(1097, 21);
+            this.txtSaslPassword.TabIndex = 38;
+            // 
+            // txtSaslUsername
+            // 
+            this.txtSaslUsername.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSaslUsername.Enabled = false;
+            this.txtSaslUsername.Location = new System.Drawing.Point(201, 55);
+            this.txtSaslUsername.Name = "txtSaslUsername";
+            this.txtSaslUsername.Size = new System.Drawing.Size(1097, 21);
+            this.txtSaslUsername.TabIndex = 40;
             // 
             // txtBootstrapServer
             // 
             this.txtBootstrapServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBootstrapServer.Location = new System.Drawing.Point(201, 3);
+            this.txtBootstrapServer.Location = new System.Drawing.Point(201, 29);
             this.txtBootstrapServer.Name = "txtBootstrapServer";
-            this.txtBootstrapServer.Size = new System.Drawing.Size(1011, 21);
+            this.txtBootstrapServer.Size = new System.Drawing.Size(1097, 21);
             this.txtBootstrapServer.TabIndex = 4;
-            // 
-            // LabSchemaRegisterServer
-            // 
-            this.LabSchemaRegisterServer.AutoSize = true;
-            this.LabSchemaRegisterServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LabSchemaRegisterServer.Location = new System.Drawing.Point(3, 30);
-            this.LabSchemaRegisterServer.Name = "LabSchemaRegisterServer";
-            this.LabSchemaRegisterServer.Size = new System.Drawing.Size(192, 30);
-            this.LabSchemaRegisterServer.TabIndex = 1;
-            this.LabSchemaRegisterServer.Text = "Schema Register Server";
-            // 
-            // labBootstrapServer
-            // 
-            this.labBootstrapServer.AutoSize = true;
-            this.labBootstrapServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labBootstrapServer.Location = new System.Drawing.Point(3, 0);
-            this.labBootstrapServer.Name = "labBootstrapServer";
-            this.labBootstrapServer.Size = new System.Drawing.Size(192, 30);
-            this.labBootstrapServer.TabIndex = 0;
-            this.labBootstrapServer.Text = "Bootstrap Server";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 60);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(192, 30);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "GroupId";
-            // 
-            // labelControl1
-            // 
-            this.labelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelControl1.Location = new System.Drawing.Point(3, 93);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(192, 24);
-            this.labelControl1.TabIndex = 35;
-            this.labelControl1.Text = "Message Format";
-            // 
-            // txtTestID
-            // 
-            this.txtTestID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTestID.Location = new System.Drawing.Point(201, 243);
-            this.txtTestID.Name = "txtTestID";
-            this.txtTestID.Size = new System.Drawing.Size(1011, 21);
-            this.txtTestID.TabIndex = 8;
-            // 
-            // txtChannel
-            // 
-            this.txtChannel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtChannel.Location = new System.Drawing.Point(201, 213);
-            this.txtChannel.Name = "txtChannel";
-            this.txtChannel.Size = new System.Drawing.Size(1011, 21);
-            this.txtChannel.TabIndex = 9;
-            // 
-            // txtTestName
-            // 
-            this.txtTestName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTestName.Location = new System.Drawing.Point(201, 183);
-            this.txtTestName.Name = "txtTestName";
-            this.txtTestName.Size = new System.Drawing.Size(1011, 21);
-            this.txtTestName.TabIndex = 9;
-            // 
-            // txtSerialNumber
-            // 
-            this.txtSerialNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSerialNumber.Location = new System.Drawing.Point(201, 153);
-            this.txtSerialNumber.Name = "txtSerialNumber";
-            this.txtSerialNumber.Size = new System.Drawing.Size(1011, 21);
-            this.txtSerialNumber.TabIndex = 6;
-            // 
-            // txtSchemaRegisterServer
-            // 
-            this.txtSchemaRegisterServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSchemaRegisterServer.Location = new System.Drawing.Point(201, 33);
-            this.txtSchemaRegisterServer.Name = "txtSchemaRegisterServer";
-            this.txtSchemaRegisterServer.Size = new System.Drawing.Size(1011, 21);
-            this.txtSchemaRegisterServer.TabIndex = 5;
-            // 
-            // txtGroupId
-            // 
-            this.txtGroupId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtGroupId.Location = new System.Drawing.Point(201, 63);
-            this.txtGroupId.Name = "txtGroupId";
-            this.txtGroupId.ReadOnly = true;
-            this.txtGroupId.Size = new System.Drawing.Size(1011, 21);
-            this.txtGroupId.TabIndex = 7;
-            // 
-            // cmbMessageFormat
-            // 
-            this.cmbMessageFormat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbMessageFormat.EditValue = "AVRO";
-            this.cmbMessageFormat.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.cmbMessageFormat.Location = new System.Drawing.Point(200, 93);
-            this.cmbMessageFormat.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.cmbMessageFormat.Name = "cmbMessageFormat";
-            this.cmbMessageFormat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbMessageFormat.Properties.DropDownRows = 2;
-            this.cmbMessageFormat.Properties.Items.AddRange(new object[] {
-            "AVRO",
-            "JSON"});
-            this.cmbMessageFormat.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.cmbMessageFormat.Size = new System.Drawing.Size(1013, 20);
-            this.cmbMessageFormat.TabIndex = 34;
             // 
             // chkConsumerMonitor
             // 
             this.chkConsumerMonitor.AutoSize = true;
-            this.chkConsumerMonitor.Checked = true;
-            this.chkConsumerMonitor.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkConsumerMonitor.Location = new System.Drawing.Point(3, 273);
+            this.chkConsumerMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkConsumerMonitor.Location = new System.Drawing.Point(3, 367);
             this.chkConsumerMonitor.Name = "chkConsumerMonitor";
-            this.chkConsumerMonitor.Size = new System.Drawing.Size(174, 16);
+            this.chkConsumerMonitor.Size = new System.Drawing.Size(192, 26);
             this.chkConsumerMonitor.TabIndex = 9;
             this.chkConsumerMonitor.Text = "Export ChannelMonitorData";
             this.chkConsumerMonitor.UseVisualStyleBackColor = true;
@@ -295,9 +305,9 @@ namespace KafkaConsumer
             // 
             this.chkTestID.AutoSize = true;
             this.chkTestID.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkTestID.Location = new System.Drawing.Point(3, 243);
+            this.chkTestID.Location = new System.Drawing.Point(3, 341);
             this.chkTestID.Name = "chkTestID";
-            this.chkTestID.Size = new System.Drawing.Size(192, 24);
+            this.chkTestID.Size = new System.Drawing.Size(192, 20);
             this.chkTestID.TabIndex = 10;
             this.chkTestID.Text = "TestID";
             this.chkTestID.UseVisualStyleBackColor = true;
@@ -307,9 +317,9 @@ namespace KafkaConsumer
             // 
             this.chkChannel.AutoSize = true;
             this.chkChannel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkChannel.Location = new System.Drawing.Point(3, 213);
+            this.chkChannel.Location = new System.Drawing.Point(3, 315);
             this.chkChannel.Name = "chkChannel";
-            this.chkChannel.Size = new System.Drawing.Size(192, 24);
+            this.chkChannel.Size = new System.Drawing.Size(192, 20);
             this.chkChannel.TabIndex = 10;
             this.chkChannel.Text = "Channel";
             this.chkChannel.UseVisualStyleBackColor = true;
@@ -319,9 +329,9 @@ namespace KafkaConsumer
             // 
             this.chkTestName.AutoSize = true;
             this.chkTestName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkTestName.Location = new System.Drawing.Point(3, 183);
+            this.chkTestName.Location = new System.Drawing.Point(3, 289);
             this.chkTestName.Name = "chkTestName";
-            this.chkTestName.Size = new System.Drawing.Size(192, 24);
+            this.chkTestName.Size = new System.Drawing.Size(192, 20);
             this.chkTestName.TabIndex = 10;
             this.chkTestName.Text = "TestName（ChannelDataTopic）";
             this.chkTestName.UseVisualStyleBackColor = true;
@@ -331,20 +341,114 @@ namespace KafkaConsumer
             // 
             this.chkSerialNumber.AutoSize = true;
             this.chkSerialNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkSerialNumber.Location = new System.Drawing.Point(3, 153);
+            this.chkSerialNumber.Location = new System.Drawing.Point(3, 263);
             this.chkSerialNumber.Name = "chkSerialNumber";
-            this.chkSerialNumber.Size = new System.Drawing.Size(192, 24);
+            this.chkSerialNumber.Size = new System.Drawing.Size(192, 20);
             this.chkSerialNumber.TabIndex = 4;
             this.chkSerialNumber.Text = "SerialNumber";
             this.chkSerialNumber.UseVisualStyleBackColor = true;
             this.chkSerialNumber.CheckedChanged += new System.EventHandler(this.chkSerialNumber_CheckedChanged);
             // 
+            // labelControl2
+            // 
+            this.labelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl2.Location = new System.Drawing.Point(3, 237);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(192, 20);
+            this.labelControl2.TabIndex = 36;
+            this.labelControl2.Text = "Export File Size (M)";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelControl1.Location = new System.Drawing.Point(3, 211);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(192, 20);
+            this.labelControl1.TabIndex = 35;
+            this.labelControl1.Text = "Message Format";
+            // 
+            // txtTestID
+            // 
+            this.txtTestID.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTestID.Location = new System.Drawing.Point(201, 341);
+            this.txtTestID.Name = "txtTestID";
+            this.txtTestID.Size = new System.Drawing.Size(1097, 21);
+            this.txtTestID.TabIndex = 8;
+            // 
+            // txtChannel
+            // 
+            this.txtChannel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtChannel.Location = new System.Drawing.Point(201, 315);
+            this.txtChannel.Name = "txtChannel";
+            this.txtChannel.Size = new System.Drawing.Size(1097, 21);
+            this.txtChannel.TabIndex = 9;
+            // 
+            // txtTestName
+            // 
+            this.txtTestName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTestName.Location = new System.Drawing.Point(201, 289);
+            this.txtTestName.Name = "txtTestName";
+            this.txtTestName.Size = new System.Drawing.Size(1097, 21);
+            this.txtTestName.TabIndex = 9;
+            // 
+            // txtSerialNumber
+            // 
+            this.txtSerialNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSerialNumber.Location = new System.Drawing.Point(201, 263);
+            this.txtSerialNumber.Name = "txtSerialNumber";
+            this.txtSerialNumber.Size = new System.Drawing.Size(1097, 21);
+            this.txtSerialNumber.TabIndex = 6;
+            // 
+            // txtFileSize
+            // 
+            this.txtFileSize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFileSize.Location = new System.Drawing.Point(201, 237);
+            this.txtFileSize.Name = "txtFileSize";
+            this.txtFileSize.Size = new System.Drawing.Size(1097, 21);
+            this.txtFileSize.TabIndex = 37;
+            this.txtFileSize.Text = "100";
+            // 
+            // cmbMessageFormat
+            // 
+            this.cmbMessageFormat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbMessageFormat.EditValue = "AVRO";
+            this.cmbMessageFormat.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.cmbMessageFormat.Location = new System.Drawing.Point(200, 211);
+            this.cmbMessageFormat.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cmbMessageFormat.Name = "cmbMessageFormat";
+            this.cmbMessageFormat.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbMessageFormat.Properties.DropDownRows = 2;
+            this.cmbMessageFormat.Properties.Items.AddRange(new object[] {
+            "AVRO",
+            "JSON"});
+            this.cmbMessageFormat.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cmbMessageFormat.Size = new System.Drawing.Size(1099, 20);
+            this.cmbMessageFormat.TabIndex = 34;
+            // 
+            // txtGroupId
+            // 
+            this.txtGroupId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtGroupId.Location = new System.Drawing.Point(201, 185);
+            this.txtGroupId.Name = "txtGroupId";
+            this.txtGroupId.ReadOnly = true;
+            this.txtGroupId.Size = new System.Drawing.Size(1097, 21);
+            this.txtGroupId.TabIndex = 7;
+            // 
+            // txtSchemaRegisterServer
+            // 
+            this.txtSchemaRegisterServer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSchemaRegisterServer.Location = new System.Drawing.Point(201, 107);
+            this.txtSchemaRegisterServer.Name = "txtSchemaRegisterServer";
+            this.txtSchemaRegisterServer.Size = new System.Drawing.Size(1097, 21);
+            this.txtSchemaRegisterServer.TabIndex = 5;
+            // 
             // btnStart
             // 
             this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStart.Location = new System.Drawing.Point(201, 273);
+            this.btnStart.Location = new System.Drawing.Point(201, 367);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(1011, 26);
+            this.btnStart.Size = new System.Drawing.Size(1097, 26);
             this.btnStart.TabIndex = 8;
             this.btnStart.Text = "Start Consumer";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -354,10 +458,10 @@ namespace KafkaConsumer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1215, 707);
+            this.ClientSize = new System.Drawing.Size(1301, 785);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Kafka Consumer (V3.0.0)";
+            this.Text = "Kafka Consumer (V3.0.1)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -383,10 +487,7 @@ namespace KafkaConsumer
         private System.Windows.Forms.TextBox txtGroupId;
         private System.Windows.Forms.TextBox txtBootstrapServer;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkSerialNumber;
-        private System.Windows.Forms.Label LabSchemaRegisterServer;
-        private System.Windows.Forms.Label labBootstrapServer;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.CheckBox chkConsumerMonitor;
         private System.Windows.Forms.CheckBox chkTestName;
@@ -399,5 +500,17 @@ namespace KafkaConsumer
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private System.Windows.Forms.TextBox txtFileSize;
+        private DevExpress.XtraEditors.LabelControl labelControl6;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private System.Windows.Forms.TextBox txtBasicAuthPassword;
+        private System.Windows.Forms.TextBox txtBasicAuthUsername;
+        private System.Windows.Forms.TextBox txtSaslPassword;
+        private System.Windows.Forms.TextBox txtSaslUsername;
+        private DevExpress.XtraEditors.LabelControl labelControl9;
+        private DevExpress.XtraEditors.LabelControl labelControl8;
+        private DevExpress.XtraEditors.LabelControl labelControl7;
+        private System.Windows.Forms.CheckBox chkConfluentCloud;
     }
 }

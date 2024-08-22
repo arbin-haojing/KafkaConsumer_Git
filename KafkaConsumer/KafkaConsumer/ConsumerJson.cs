@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,12 +56,19 @@ namespace KafkaConsumer
                     if (m_bTestName)
                         strSelect += "_" + m_TestName;
                     bSelectKey = !string.IsNullOrEmpty(strSelect);
+                    int intcount = 0; ;
                     while (true)
                     {
                         try
                         {
                             strPath = strPathFile;
                             var consumeResult = consumer.Consume(cancellationTokenSource.Token);
+                            intcount++;
+                            Console.WriteLine(intcount);
+                            if (intcount > 1050)
+                            {
+
+                            }
                             if (bSelectKey)
                             {
                                 if (m_bTestName && !consumeResult.Key.ToLower().Equals(strSelect.ToLower()))
@@ -68,7 +76,8 @@ namespace KafkaConsumer
                                 if (!m_bTestName && !consumeResult.Key.ToLower().Contains(strSelect.ToLower()))
                                     continue;
                             };
-                            var data  = JsonConvert.DeserializeObject<T>(consumeResult.Message.Value.Replace("\0","").Replace("\b", ""));
+                            var data  = JsonConvert.DeserializeObject<T>(Regex.Replace(consumeResult.Message.Value, @"[\x00-\x1F\x7F]", string.Empty));
+                            //var data  = JsonConvert.DeserializeObject<T>(consumeResult.Message.Value.Replace("\0","").Replace("\b", ""));
                             if (m_bTestID)
                             {
                                 PropertyInfo property = data.GetType().GetProperty("TestID");

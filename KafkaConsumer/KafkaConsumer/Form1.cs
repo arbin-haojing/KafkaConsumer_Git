@@ -25,14 +25,20 @@ namespace KafkaConsumer
     {
         DataTable m_dtServicesArbin = new DataTable();
         private string m_GroupId = "Consumer_Arbin_QA";
+
         private string m_BootstrapServer = "192.168.1.57:9092";
+        private string m_SaslUsername = "";
+        private string m_SaslPassword = "";
         private string m_SchemaRegisterServer = "192.168.1.57:8081";
+        private string m_BasicAuthUsername = "";
+        private string m_BasicAuthPassword = "";
         private bool m_UseSerialNumber = false;
         private bool m_ConsumerMonitor = false;
         private string m_SerialNumber = "TestNumber";
         private bool m_bTestName = false;
         private bool m_bChanel = false;
         private bool m_bTestID = false;
+        private bool m_bConfluentCloud = false;
         private string m_TestName = "";
         private string m_Chanel = "";
         private string m_TestID = "";
@@ -78,7 +84,11 @@ namespace KafkaConsumer
             try
             {
                 txtBootstrapServer.Text = m_BootstrapServer;
+                txtSaslUsername.Text = m_SaslUsername;
+                txtSaslPassword.Text = m_SaslPassword;
                 txtSchemaRegisterServer.Text = m_SchemaRegisterServer;
+                txtBasicAuthUsername.Text = m_BasicAuthUsername;
+                txtBasicAuthPassword.Text = m_BasicAuthPassword;
                 chkSerialNumber.Checked = m_UseSerialNumber;
                 txtSerialNumber.Text = m_SerialNumber;
                 txtGroupId.Text = Guid.NewGuid().ToString();
@@ -87,6 +97,7 @@ namespace KafkaConsumer
                 chkConsumerMonitor.Checked = m_ConsumerMonitor;
                 chkTestName.Checked = m_bTestName;
                 chkTestID.Checked = m_bTestID;
+                chkConfluentCloud.Checked = m_bConfluentCloud;
                 chkChannel.Checked = m_bChanel;
                 txtTestName.Enabled = chkTestName.Checked;
                 txtChannel.Enabled = chkChannel.Checked;
@@ -110,6 +121,10 @@ namespace KafkaConsumer
                 {
                     Url = m_SchemaRegisterServer
                 };
+                if (chkConfluentCloud.Checked)
+                {
+                    schemaRegistryConfig.BasicAuthUserInfo = $"{m_BasicAuthUsername}:{m_BasicAuthPassword}";
+                }
                 m_CachedSchemaRegistryClient = new CachedSchemaRegistryClient(schemaRegistryConfig);
             }
             catch (Exception ex)
@@ -127,7 +142,11 @@ namespace KafkaConsumer
                     using (StreamWriter sw = File.CreateText(TestDbEfficiency_cfgFileName))
                     {
                         sw.WriteLine($"BootstrapServers:[{m_BootstrapServer}]");
+                        sw.WriteLine($"SaslUsername:[{m_SaslUsername}]");
+                        sw.WriteLine($"SaslPassword:[{m_SaslPassword}]");
                         sw.WriteLine($"SchemaRegisterServer:[{m_SchemaRegisterServer}]");
+                        sw.WriteLine($"BasicAuthUsername:[{m_BasicAuthUsername}]");
+                        sw.WriteLine($"BasicAuthPassword:[{m_BasicAuthPassword}]");
                         sw.WriteLine($"Use SerialNumber:[{m_UseSerialNumber}]");
                         sw.WriteLine($"SerialNumber:[{m_SerialNumber}]");
                         sw.WriteLine($"GroupId:[{m_GroupId}]");
@@ -135,11 +154,12 @@ namespace KafkaConsumer
                         sw.WriteLine($"bTestName:[{m_bTestName}]");
                         sw.WriteLine($"bChanel:[{m_bChanel}]");
                         sw.WriteLine($"bTestID:[{m_bTestID}]");
+                        sw.WriteLine($"bConfluentCloud:[{m_bConfluentCloud}]");
                         sw.WriteLine($"TestName:[{m_TestName}]");
                         sw.WriteLine($"Chanel:[{m_Chanel}]");
                         sw.WriteLine($"TestID:[{m_TestID}]");
-                        sw.WriteLine($"MessageFormat:[{m_MessageFormat}]"); 
-                        sw.WriteLine($"ExportFileSize:[{m_ExportFileSize}]"); 
+                        sw.WriteLine($"MessageFormat:[{m_MessageFormat}]");
+                        sw.WriteLine($"ExportFileSize:[{m_ExportFileSize}]");
                     }
                 }
                 else
@@ -150,7 +170,11 @@ namespace KafkaConsumer
                         using (StreamWriter sw = File.CreateText(TestDbEfficiency_cfgFileName))
                         {
                             sw.WriteLine($"BootstrapServers:[{m_BootstrapServer}]");
+                            sw.WriteLine($"SaslUsername:[{m_SaslUsername}]");
+                            sw.WriteLine($"SaslPassword:[{m_SaslPassword}]");
                             sw.WriteLine($"SchemaRegisterServer:[{m_SchemaRegisterServer}]");
+                            sw.WriteLine($"BasicAuthUsername:[{m_BasicAuthUsername}]");
+                            sw.WriteLine($"BasicAuthPassword:[{m_BasicAuthPassword}]");
                             sw.WriteLine($"Use SerialNumber:[{m_UseSerialNumber}]");
                             sw.WriteLine($"SerialNumber:[{m_SerialNumber}]");
                             sw.WriteLine($"GroupId:[{m_GroupId}]");
@@ -158,18 +182,23 @@ namespace KafkaConsumer
                             sw.WriteLine($"bTestName:[{m_bTestName}]");
                             sw.WriteLine($"bChanel:[{m_bChanel}]");
                             sw.WriteLine($"bTestID:[{m_bTestID}]");
+                            sw.WriteLine($"bConfluentCloud:[{m_bConfluentCloud}]");
                             sw.WriteLine($"TestName:[{m_TestName}]");
                             sw.WriteLine($"Chanel:[{m_Chanel}]");
                             sw.WriteLine($"TestID:[{m_TestID}]");
-                            sw.WriteLine($"MessageFormat:[{m_MessageFormat}]"); 
-                            sw.WriteLine($"ExportFileSize:[{m_ExportFileSize}]"); 
+                            sw.WriteLine($"MessageFormat:[{m_MessageFormat}]");
+                            sw.WriteLine($"ExportFileSize:[{m_ExportFileSize}]");
                         }
                     }
                 }
                 using (StreamReader sr = File.OpenText(TestDbEfficiency_cfgFileName))
                 {
                     m_BootstrapServer = SetConfig(sr.ReadLine());
+                    m_SaslUsername = SetConfig(sr.ReadLine());
+                    m_SaslPassword = SetConfig(sr.ReadLine());
                     m_SchemaRegisterServer = SetConfig(sr.ReadLine());
+                    m_BasicAuthUsername = SetConfig(sr.ReadLine());
+                    m_BasicAuthPassword = SetConfig(sr.ReadLine());
                     m_UseSerialNumber = Convert.ToBoolean(SetConfig(sr.ReadLine()));
                     m_SerialNumber = SetConfig(sr.ReadLine());
                     m_GroupId = SetConfig(sr.ReadLine());
@@ -177,6 +206,7 @@ namespace KafkaConsumer
                     m_bTestName = Convert.ToBoolean(SetConfig(sr.ReadLine()));
                     m_bChanel = Convert.ToBoolean(SetConfig(sr.ReadLine()));
                     m_bTestID = Convert.ToBoolean(SetConfig(sr.ReadLine()));
+                    m_bConfluentCloud = Convert.ToBoolean(SetConfig(sr.ReadLine()));
                     m_TestName = SetConfig(sr.ReadLine());
                     m_Chanel = SetConfig(sr.ReadLine());
                     m_TestID = SetConfig(sr.ReadLine());
@@ -230,10 +260,10 @@ namespace KafkaConsumer
 
                 thread_MonitorDis.Start();
                 thread_Monitor.Start();
-                thread_Channel.Start();
-                thread_TestInfo.Start();
-                thread_Event.Start();
-                thread_ChannelDiagnosticEventData.Start();
+                //thread_Channel.Start();
+                //thread_TestInfo.Start();
+                //thread_Event.Start();
+                //thread_ChannelDiagnosticEventData.Start();
             }
             catch (Exception ex)
             {
@@ -668,13 +698,18 @@ namespace KafkaConsumer
         private void btnStart_Click(object sender, EventArgs e)
         {
             m_BootstrapServer = txtBootstrapServer.Text;
+            m_SaslUsername = txtSaslUsername.Text;
+            m_SaslPassword = txtSaslPassword.Text;
             m_SchemaRegisterServer = txtSchemaRegisterServer.Text;
+            m_BasicAuthUsername = txtBasicAuthUsername.Text;
+            m_BasicAuthPassword = txtBasicAuthPassword.Text;
             m_UseSerialNumber = chkSerialNumber.Checked;
             m_SerialNumber = txtSerialNumber.Text;
             m_GroupId = txtGroupId.Text;
             m_ConsumerMonitor = chkConsumerMonitor.Checked;
             m_bChanel = chkChannel.Checked;
             m_bTestID = chkTestID.Checked;
+            m_bConfluentCloud = chkConfluentCloud.Checked;
             m_bTestName = chkTestName.Checked;
             m_Chanel = txtChannel.Text;
             m_TestID = txtTestID.Text;
@@ -715,10 +750,32 @@ namespace KafkaConsumer
                     AutoOffsetReset = AutoOffsetReset.Latest,
                     EnableAutoCommit = false
                 };
+                if (chkConfluentCloud.Checked)
+                {
+                    configComsume_Earliest.SecurityProtocol =
+                        configComsume_Lasest.SecurityProtocol =
+                        configComsume_Lasest_MonitorDisplay.SecurityProtocol = SecurityProtocol.SaslSsl;
+
+                    configComsume_Earliest.SaslMechanism =
+                        configComsume_Lasest.SaslMechanism =
+                        configComsume_Lasest_MonitorDisplay.SaslMechanism = SaslMechanism.Plain;
+
+                    configComsume_Earliest.SaslUsername =
+                        configComsume_Lasest.SaslUsername =
+                        configComsume_Lasest_MonitorDisplay.SaslUsername = m_SaslUsername;
+
+                    configComsume_Earliest.SaslPassword =
+                        configComsume_Lasest.SaslPassword =
+                        configComsume_Lasest_MonitorDisplay.SaslPassword = m_SaslPassword;
+                }
                 SchemaRegistryConfig schemaRegistryConfig = new SchemaRegistryConfig
                 {
                     Url = $"http://{m_SchemaRegisterServer.Replace("http://", "")}" // 指定 Schema Registry 的地址
                 };
+                if (chkConfluentCloud.Checked)
+                {
+                    schemaRegistryConfig.BasicAuthUserInfo = $"{m_BasicAuthUsername}:{m_BasicAuthPassword}";
+                }
                 if (m_MessageFormat == (int)EMessageFormat.JSON)
                 {
                     m_ConsumerJson_ChannelTestInfoData = new ConsumerJson<ChannelTestInfoData>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
@@ -762,6 +819,11 @@ namespace KafkaConsumer
         private void chkTestID_CheckedChanged(object sender, EventArgs e)
         {
             txtTestID.Enabled = chkTestID.Checked;
+        }
+
+        private void chkConfluentCloud_CheckedChanged(object sender, EventArgs e)
+        {
+            txtSaslUsername.Enabled = txtSaslPassword.Enabled = txtBasicAuthUsername.Enabled = txtBasicAuthPassword.Enabled = chkConfluentCloud.Checked;
         }
     }
 }
