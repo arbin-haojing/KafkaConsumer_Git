@@ -50,7 +50,7 @@ namespace KafkaConsumer
         List<string> m_PublicColumn = new List<string>();
         CachedSchemaRegistryClient m_CachedSchemaRegistryClient;
         Thread thread_Monitor;
-        Thread thread_MonitorDis;
+        Thread thread_MonitorDisplay;
         Thread thread_Channel;
         Thread thread_TestInfo;
         Thread thread_Event;
@@ -244,11 +244,10 @@ namespace KafkaConsumer
         {
             try
             {
-
+                thread_MonitorDisplay = new Thread(new ThreadStart(ConsumerMonitorDispaly));
+                thread_MonitorDisplay.IsBackground = true;
                 thread_Monitor = new Thread(new ThreadStart(ConsumerMonitorTopic));
                 thread_Monitor.IsBackground = true;
-                thread_MonitorDis = new Thread(new ThreadStart(ConsumerMonitor));
-                thread_MonitorDis.IsBackground = true;
                 thread_Channel = new Thread(new ThreadStart(ConsumerChannelTopic));
                 thread_Channel.IsBackground = true;
                 thread_TestInfo = new Thread(new ThreadStart(ConsumerTestInfoTopic));
@@ -258,19 +257,20 @@ namespace KafkaConsumer
                 thread_ChannelDiagnosticEventData = new Thread(new ThreadStart(ConsumerChannelDiagnosticEventDataTopic));
                 thread_ChannelDiagnosticEventData.IsBackground = true;
 
-                thread_MonitorDis.Start();
-                thread_Monitor.Start();
-                //thread_Channel.Start();
-                //thread_TestInfo.Start();
-                //thread_Event.Start();
-                //thread_ChannelDiagnosticEventData.Start();
+                thread_MonitorDisplay.Start();
+                if (m_ConsumerMonitor)
+                    thread_Monitor.Start();
+                thread_Channel.Start();
+                thread_TestInfo.Start();
+                thread_Event.Start();
+                thread_ChannelDiagnosticEventData.Start();
             }
             catch (Exception ex)
             {
                 Log(ex.Message);
             }
         }
-        private void ConsumerMonitor()
+        private void ConsumerMonitorDispaly()
         {
             try
             {
@@ -292,7 +292,7 @@ namespace KafkaConsumer
                 EKafkaTopic eKafkaTopic = EKafkaTopic.ChannelMonitorData;
                 try
                 {
-                    IConsumer<string, string> consumer = new ConsumerBuilder<string, string>(configComsume_Lasest_MonitorDisplay).SetValueDeserializer(Deserializers.Utf8).Build();
+                    IConsumer<string, ChannelMonitorData> consumer = new ConsumerBuilder<string, ChannelMonitorData>(configComsume_Lasest_MonitorDisplay).SetValueDeserializer(new JsonDeserializer<ChannelMonitorData>().AsSyncOverAsync()).Build();
                     consumer.Subscribe(eKafkaTopic.ToString());
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
                     Console.CancelKeyPress += (_, e) =>
@@ -307,10 +307,10 @@ namespace KafkaConsumer
                             try
                             {
                                 m_RefresherColumn = false;
-                                ConsumeResult<string, string> consumeResult = consumer.Consume(cancellationTokenSource.Token);
+                               var consumeResult = consumer.Consume(cancellationTokenSource.Token);
                                 if (m_UseSerialNumber && !consumeResult.Key.Contains(m_SerialNumber))
                                     continue;
-                                var data = JsonConvert.DeserializeObject<ChannelMonitorData>(consumeResult.Message.Value.Replace("\0", "").Replace("\a", ""));
+                                var data = consumeResult.Message.Value;
                                 if (m_bChanel)
                                 {
                                     PropertyInfo property = data.GetType().GetProperty(nameof(ChannelMonitorData.ChannelID));
@@ -598,39 +598,39 @@ namespace KafkaConsumer
         private void ConsumerMonitorTopic()
         {
             if (m_MessageFormat == (int)EMessageFormat.JSON)
-                m_ConsumerJson_ChannelMonitorData.ConsumerTopic(EKafkaTopic.ChannelMonitorData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+                m_ConsumerJson_ChannelMonitorData.ConsumerTopic<ChannelMonitorData>(EKafkaTopic.ChannelMonitorData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
             else
                 m_ConsumerAvro_ChannelMonitorData.ConsumerTopic(EKafkaTopic.ChannelMonitorData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
         private void ConsumerChannelTopic()
         {
             if (m_MessageFormat == (int)EMessageFormat.JSON)
-                m_ConsumerJson_ChannelData.ConsumerTopic(EKafkaTopic.ChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+                m_ConsumerJson_ChannelData.ConsumerTopic<ChannelData>(EKafkaTopic.ChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
             else
                 m_ConsumerAvro_ChannelData.ConsumerTopic(EKafkaTopic.ChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
         private void ConsumerSubChannelTopic()
         {
-            m_ConsumerJson_SubChannelData.ConsumerTopic(EKafkaTopic.SubChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+            m_ConsumerJson_SubChannelData.ConsumerTopic<SubChannelData>(EKafkaTopic.SubChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
         private void ConsumerTestInfoTopic()
         {
             if (m_MessageFormat == (int)EMessageFormat.JSON)
-                m_ConsumerJson_ChannelTestInfoData.ConsumerTopic(EKafkaTopic.ChannelTestInfoData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+                m_ConsumerJson_ChannelTestInfoData.ConsumerTopic<ChannelTestInfoData>(EKafkaTopic.ChannelTestInfoData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
             else
                 m_ConsumerAvro_ChannelTestInfoData.ConsumerTopic(EKafkaTopic.ChannelTestInfoData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
         private void ConsumerEventTopic()
         {
             if (m_MessageFormat == (int)EMessageFormat.JSON)
-                m_ConsumerJson_ChannelEventData.ConsumerTopic(EKafkaTopic.ChannelEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+                m_ConsumerJson_ChannelEventData.ConsumerTopic<ChannelEventData>(EKafkaTopic.ChannelEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
             else
                 m_ConsumerAvro_ChannelEventData.ConsumerTopic(EKafkaTopic.ChannelEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
         private void ConsumerChannelDiagnosticEventDataTopic()
         {
             if (m_MessageFormat == (int)EMessageFormat.JSON)
-                m_ConsumerJson_ChannelDiagnosticEventData.ConsumerTopic(EKafkaTopic.ChannelDiagnosticEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+                m_ConsumerJson_ChannelDiagnosticEventData.ConsumerTopic<ChannelDiagnosticEventData>(EKafkaTopic.ChannelDiagnosticEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
             else
                 m_ConsumerAvro_ChannelDiagnosticEventData.ConsumerTopic(EKafkaTopic.ChannelDiagnosticEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
@@ -774,6 +774,7 @@ namespace KafkaConsumer
                 };
                 if (chkConfluentCloud.Checked)
                 {
+                    schemaRegistryConfig.Url = $"https://{m_SchemaRegisterServer.Replace("https://", "")}";// 指定 Schema Registry 的地址
                     schemaRegistryConfig.BasicAuthUserInfo = $"{m_BasicAuthUsername}:{m_BasicAuthPassword}";
                 }
                 if (m_MessageFormat == (int)EMessageFormat.JSON)

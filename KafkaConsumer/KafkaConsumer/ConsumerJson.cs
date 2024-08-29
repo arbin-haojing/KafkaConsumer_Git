@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace KafkaConsumer
 {
-    public class ConsumerJson<T>
+    public class ConsumerJson<T> 
     {
         ConsumerConfig configComsume;
         CachedSchemaRegistryClient m_CachedSchemaRegistryClient;
@@ -33,14 +33,14 @@ namespace KafkaConsumer
             m_SchemaRegistryConfig = _schemaRegistryConfig;
             commonHelper = new CommonHelper(m_ExportDataPath, m_CachedSchemaRegistryClient);
         }
-        public void ConsumerTopic(EKafkaTopic eKafkaTopic, bool m_UseSerialNumber, bool m_bTestName, bool m_bTestID, bool m_bChanel, string m_SerialNumber, string m_TestName, string m_TestID, string m_Chanel)
+        public void ConsumerTopic<T>(EKafkaTopic eKafkaTopic, bool m_UseSerialNumber, bool m_bTestName, bool m_bTestID, bool m_bChanel, string m_SerialNumber, string m_TestName, string m_TestID, string m_Chanel) where T : class
         {
             string strPathFile = $@"{m_ExportDataPath}\{typeof(T).Name}\";
             Directory.CreateDirectory(strPathFile);
             string strPath;
             try
             {
-               IConsumer<string, string> consumer = new ConsumerBuilder<string, string>(configComsume).SetValueDeserializer(Deserializers.Utf8).Build();
+               IConsumer<string, T> consumer = new ConsumerBuilder<string, T>(configComsume).SetValueDeserializer(new JsonDeserializer<T>().AsSyncOverAsync()).Build();
                 consumer.Subscribe(eKafkaTopic.ToString());
                 try
                 {
@@ -75,9 +75,11 @@ namespace KafkaConsumer
                                     continue;
                                 if (!m_bTestName && !consumeResult.Key.ToLower().Contains(strSelect.ToLower()))
                                     continue;
-                            };
-                            var data  = JsonConvert.DeserializeObject<T>(Regex.Replace(consumeResult.Message.Value, @"[\x00-\x1F\x7F]", string.Empty));
-                            //var data  = JsonConvert.DeserializeObject<T>(consumeResult.Message.Value.Replace("\0","").Replace("\b", ""));
+                            }; 
+                            var aa = consumeResult.Message.Value;
+                            //var data  = JsonConvert.DeserializeObject<T>(Regex.Replace(consumeResult.Message.Value, @"[\x00-\x1F\x7F]", string.Empty));
+                            var data = consumeResult.Message.Value;
+                            //var data = JsonConvert.DeserializeObject<T>(consumeResult.Message.Value.Replace("\0", "").Replace("\b", ""));
                             if (m_bTestID)
                             {
                                 PropertyInfo property = data.GetType().GetProperty("TestID");
@@ -136,9 +138,9 @@ namespace KafkaConsumer
                                 }
                                 else
                                 {
-                                    
+
                                     strColumnValue = Convert.ToString(value);
-                                    if (strField == "ID"||
+                                    if (strField == "ID" ||
                                         strField == "TestName" ||
                                         strField == "TestID" ||
                                         strField == "ChannelID" ||
@@ -147,7 +149,7 @@ namespace KafkaConsumer
                                         strPath += $"[{strColumnValue}] ";
                                     }
                                 }
-                                lstColumn.Add(strColumnValue.Replace(",",""));
+                                lstColumn.Add(strColumnValue.Replace(",", ""));
                             }
                             lstLines.Add(string.Join(",", lstColumn));
                             bOk = commonHelper.WriteFile_DifferenPath<T>(eKafkaTopic, strPath, ".csv", lstLines, out string newPath, EMessageFormat.JSON);
