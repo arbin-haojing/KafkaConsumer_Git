@@ -162,6 +162,14 @@ namespace Arbin.Library.DataModel
         /// List of Auxiliary
         /// </summary>
         public List<AuxData> Auxs {get; set;} = new List<AuxData>();
+        /// <summary>
+        /// DNLC
+        /// </summary>
+        public float DNLC { get; set; } = 0;
+        /// <summary>
+        /// DNC
+        /// </summary>
+        public float DNC { get; set; } = 0;
 
         /// <summary>
         /// Default Constructors
