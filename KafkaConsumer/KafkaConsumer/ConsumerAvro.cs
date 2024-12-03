@@ -33,7 +33,7 @@ namespace KafkaConsumer
         }
         public void ConsumerTopic(EKafkaTopic eKafkaTopic, bool m_UseSerialNumber, bool m_bTestName, bool m_bTestID, bool m_bChanel, string m_SerialNumber,string m_TestName,string m_TestID,string m_Chanel)
         {
-            string strPathFile = $@"{m_ExportDataPath}\{typeof(T).Name}\";
+            string strPathFile = $@"{m_ExportDataPath}\{typeof(T).Name}\";  
             Directory.CreateDirectory(strPathFile);
             try
             {

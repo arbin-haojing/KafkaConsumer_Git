@@ -65,10 +65,6 @@ namespace KafkaConsumer
                             var consumeResult = consumer.Consume(cancellationTokenSource.Token);
                             intcount++;
                             Console.WriteLine(intcount);
-                            if (intcount > 1050)
-                            {
-
-                            }
                             if (bSelectKey)
                             {
                                 if (m_bTestName && !consumeResult.Key.ToLower().Equals(strSelect.ToLower()))
