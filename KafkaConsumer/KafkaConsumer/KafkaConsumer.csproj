@@ -152,11 +152,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopicClass\ArbinDataModelBase.cs" />
+    <Compile Include="TopicClass\CFileTopicInfo.cs" />
     <Compile Include="TopicClass\ChannelData.cs" />
     <Compile Include="TopicClass\ChannelDiagnosticEventData.cs" />
     <Compile Include="TopicClass\ChannelEventData.cs" />
     <Compile Include="TopicClass\ChannelMonitorData.cs" />
     <Compile Include="TopicClass\ChannelTestInfoData.cs" />
+    <Compile Include="TopicClass\ConfigFileInfo.cs" />
+    <Compile Include="TopicClass\ScheduleFileInfo.cs" />
     <Compile Include="TopicClass\SubChannelData.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>

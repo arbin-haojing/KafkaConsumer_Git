@@ -55,6 +55,8 @@ namespace KafkaConsumer
         Thread thread_TestInfo;
         Thread thread_Event;
         Thread thread_ChannelDiagnosticEventData;
+        Thread thread_ScheduleFile;
+        Thread thread_ConfigFile;
         string m_LogPath = $"{AppDomain.CurrentDomain.SetupInformation.ApplicationBase}Log.txt";
         ConsumerConfig configComsume_Earliest;
         ConsumerConfig configComsume_Lasest_MonitorDisplay;
@@ -65,6 +67,8 @@ namespace KafkaConsumer
         ConsumerJson<ChannelData> m_ConsumerJson_ChannelData;
         ConsumerJson<SubChannelData> m_ConsumerJson_SubChannelData;
         ConsumerJson<ChannelMonitorData> m_ConsumerJson_ChannelMonitorData;
+        ConsumerJson<ScheduleFileInfo> m_ConsumerJson_ScheduleFile;
+        ConsumerJson<ConfigFileInfo> m_ConsumerJson_ConfigFile;
 
         ConsumerAvro<ChannelTestInfoData> m_ConsumerAvro_ChannelTestInfoData;
         ConsumerAvro<ChannelEventData> m_ConsumerAvro_ChannelEventData;
@@ -72,6 +76,8 @@ namespace KafkaConsumer
         ConsumerAvro<ChannelData> m_ConsumerAvro_ChannelData;
         ConsumerAvro<SubChannelData> m_ConsumerAvro_SubChannelData;
         ConsumerAvro<ChannelMonitorData> m_ConsumerAvro_ChannelMonitorData;
+        ConsumerAvro<ScheduleFileInfo> m_ConsumerAvro_ScheduleFile;
+        ConsumerAvro<ConfigFileInfo> m_ConsumerAvro_ConfigFile;
         public Form1()
         {
             InitializeComponent();
@@ -256,7 +262,10 @@ namespace KafkaConsumer
                 thread_Event.IsBackground = true;
                 thread_ChannelDiagnosticEventData = new Thread(new ThreadStart(ConsumerChannelDiagnosticEventDataTopic));
                 thread_ChannelDiagnosticEventData.IsBackground = true;
-
+                thread_ScheduleFile = new Thread(new ThreadStart(ConsumerScheduleFileTopic));
+                thread_ScheduleFile.IsBackground = true;
+                thread_ConfigFile = new Thread(new ThreadStart(ConsumerConfigFileTopic));
+                thread_ConfigFile.IsBackground = true;
                 thread_MonitorDisplay.Start();
                 if (m_ConsumerMonitor)
                     thread_Monitor.Start();
@@ -264,6 +273,8 @@ namespace KafkaConsumer
                 thread_TestInfo.Start();
                 thread_Event.Start();
                 thread_ChannelDiagnosticEventData.Start();
+                thread_ScheduleFile.Start();
+                thread_ConfigFile.Start();
             }
             catch (Exception ex)
             {
@@ -634,6 +645,20 @@ namespace KafkaConsumer
             else
                 m_ConsumerAvro_ChannelDiagnosticEventData.ConsumerTopic(EKafkaTopic.ChannelDiagnosticEventData, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
+        private void ConsumerScheduleFileTopic()
+        {
+            if (m_MessageFormat == (int)EMessageFormat.JSON)
+                m_ConsumerJson_ScheduleFile.ConsumerTopic<ScheduleFileInfo>(EKafkaTopic.ScheduleFileInfo, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+            else
+                m_ConsumerAvro_ScheduleFile.ConsumerTopic(EKafkaTopic.ScheduleFileInfo, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+        }
+        private void ConsumerConfigFileTopic()
+        {
+            if (m_MessageFormat == (int)EMessageFormat.JSON)
+                m_ConsumerJson_ConfigFile.ConsumerTopic<ConfigFileInfo>(EKafkaTopic.ConfigFileInfo, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+            else
+                m_ConsumerAvro_ConfigFile.ConsumerTopic(EKafkaTopic.ConfigFileInfo, m_UseSerialNumber, false, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+        }
         #endregion        
         string FormatTime(object timeInSeconds)
         {
@@ -785,6 +810,8 @@ namespace KafkaConsumer
                     m_ConsumerJson_ChannelData = new ConsumerJson<ChannelData>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
                     m_ConsumerJson_SubChannelData = new ConsumerJson<SubChannelData>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
                     m_ConsumerJson_ChannelMonitorData = new ConsumerJson<ChannelMonitorData>(m_ExportDataPath, configComsume_Lasest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
+                    m_ConsumerJson_ScheduleFile = new ConsumerJson<ScheduleFileInfo>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
+                    m_ConsumerJson_ConfigFile = new ConsumerJson<ConfigFileInfo>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
                 }
                 else
                 {
@@ -794,6 +821,8 @@ namespace KafkaConsumer
                     m_ConsumerAvro_ChannelData = new ConsumerAvro<ChannelData>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
                     m_ConsumerAvro_SubChannelData = new ConsumerAvro<SubChannelData>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
                     m_ConsumerAvro_ChannelMonitorData = new ConsumerAvro<ChannelMonitorData>(m_ExportDataPath, configComsume_Lasest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
+                    m_ConsumerAvro_ScheduleFile = new ConsumerAvro<ScheduleFileInfo>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
+                    m_ConsumerAvro_ConfigFile = new ConsumerAvro<ConfigFileInfo>(m_ExportDataPath, configComsume_Earliest, m_CachedSchemaRegistryClient, schemaRegistryConfig);
 
                 }
             }
@@ -821,7 +850,6 @@ namespace KafkaConsumer
         {
             txtTestID.Enabled = chkTestID.Checked;
         }
-
         private void chkConfluentCloud_CheckedChanged(object sender, EventArgs e)
         {
             txtSaslUsername.Enabled = txtSaslPassword.Enabled = txtBasicAuthUsername.Enabled = txtBasicAuthPassword.Enabled = chkConfluentCloud.Checked;

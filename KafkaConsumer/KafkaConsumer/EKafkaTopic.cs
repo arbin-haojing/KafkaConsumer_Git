@@ -32,6 +32,8 @@ namespace KafkaConsumer
         ChannelEventData,
         ChannelDiagnosticEventData,
         SubChannelData,
+        ScheduleFileInfo,
+        ConfigFileInfo,
     }
     public enum EMonitorFieldPos
     {
