@@ -161,6 +161,7 @@
     <Compile Include="TopicClass\ConfigFileInfo.cs" />
     <Compile Include="TopicClass\ScheduleFileInfo.cs" />
     <Compile Include="TopicClass\SubChannelData.cs" />
+    <Compile Include="Version.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>

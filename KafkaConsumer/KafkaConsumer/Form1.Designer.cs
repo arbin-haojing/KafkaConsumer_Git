@@ -495,7 +495,7 @@ namespace KafkaConsumer
             this.Controls.Add(this.panel1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
-            this.Text = "Kafka Consumer (V4.0.5 Cloud)";
+            this.Text = "Kafka Consumer (V4.0.6 Cloud)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);

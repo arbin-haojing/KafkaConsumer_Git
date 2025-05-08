@@ -57,6 +57,7 @@ namespace KafkaConsumer
         Thread thread_ChannelDiagnosticEventData;
         Thread thread_ScheduleFile;
         Thread thread_ConfigFile;
+        Thread thread_SubChannel;
         string m_LogPath = $"{AppDomain.CurrentDomain.SetupInformation.ApplicationBase}Log.txt";
         ConsumerConfig configComsume_Earliest;
         ConsumerConfig configComsume_Lasest_MonitorDisplay;
@@ -266,6 +267,8 @@ namespace KafkaConsumer
                 thread_ScheduleFile.IsBackground = true;
                 thread_ConfigFile = new Thread(new ThreadStart(ConsumerConfigFileTopic));
                 thread_ConfigFile.IsBackground = true;
+                thread_SubChannel = new Thread(new ThreadStart(ConsumerSubChannelTopic));
+                thread_SubChannel.IsBackground = true;
                 thread_MonitorDisplay.Start();
                 if (m_ConsumerMonitor)
                     thread_Monitor.Start();
@@ -275,6 +278,7 @@ namespace KafkaConsumer
                 thread_ChannelDiagnosticEventData.Start();
                 thread_ScheduleFile.Start();
                 thread_ConfigFile.Start();
+                thread_SubChannel.Start();
             }
             catch (Exception ex)
             {
@@ -622,7 +626,10 @@ namespace KafkaConsumer
         }
         private void ConsumerSubChannelTopic()
         {
-            m_ConsumerJson_SubChannelData.ConsumerTopic<SubChannelData>(EKafkaTopic.SubChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+            if(m_MessageFormat == (int)EMessageFormat.JSON)
+                m_ConsumerJson_SubChannelData.ConsumerTopic<SubChannelData>(EKafkaTopic.SubChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
+             else
+                m_ConsumerAvro_SubChannelData.ConsumerTopic(EKafkaTopic.SubChannelData, m_UseSerialNumber, m_bTestName, m_bTestID, m_bChanel, m_SerialNumber, m_TestName, m_TestID, m_Chanel);
         }
         private void ConsumerTestInfoTopic()
         {
